@@ -2372,6 +2372,20 @@ camelcase@^5.0.0, camelcase@^5.2.0, camelcase@^5.3.1:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.3.1.tgz#e3c9b31569e106811df242f715725a1f4c494320"
   integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
 
+canard-client@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/canard-client/-/canard-client-0.0.3.tgz#71989891a6b85c045eef9e7979546cc6101b3e65"
+  integrity sha512-aeJGedJvaQsWgwjUOkL9tssTZnXOEjG68pUC7qo0ebUw3YBEwsGbzCqOEMmVLje8rQUbiHaZZp8prrGHxHrK1g==
+  dependencies:
+    socket.io-client "^2.2.0"
+
+canard-server@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/canard-server/-/canard-server-0.0.3.tgz#1fa35c63d60f5286c7acf1126ef8cb9828517519"
+  integrity sha512-zdHnAkQeRzl96GpBeJWqTPAIElDdURP2jKgjynmUe0Hc5nSXCeWoH3Kk2VFHw4+q208vtaPJ3y3minsIx7pTFQ==
+  dependencies:
+    socket.io "^2.2.0"
+
 caniuse-api@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/caniuse-api/-/caniuse-api-3.0.0.tgz#5e4d90e2274961d46291997df599e3ed008ee4c0"
@@ -4560,20 +4574,6 @@ gzip-size@5.0.0:
     duplexer "^0.1.1"
     pify "^3.0.0"
 
-canard-client@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/canard-client/-/canard-client-0.0.3.tgz#71989891a6b85c045eef9e7979546cc6101b3e65"
-  integrity sha512-aeJGedJvaQsWgwjUOkL9tssTZnXOEjG68pUC7qo0ebUw3YBEwsGbzCqOEMmVLje8rQUbiHaZZp8prrGHxHrK1g==
-  dependencies:
-    socket.io-client "^2.2.0"
-
-canard-server@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/canard-server/-/canard-server-0.0.3.tgz#1fa35c63d60f5286c7acf1126ef8cb9828517519"
-  integrity sha512-zdHnAkQeRzl96GpBeJWqTPAIElDdURP2jKgjynmUe0Hc5nSXCeWoH3Kk2VFHw4+q208vtaPJ3y3minsIx7pTFQ==
-  dependencies:
-    socket.io "^2.2.0"
-
 handle-thing@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
@@ -6219,7 +6219,7 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
-lodash._reinterpolate@~3.0.0:
+lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
@@ -6240,19 +6240,19 @@ lodash.tail@^4.1.1:
   integrity sha1-0jM6NtnncXyK0vfKyv7HwytERmQ=
 
 lodash.template@^4.2.4, lodash.template@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.template/-/lodash.template-4.4.0.tgz#e73a0385c8355591746e020b99679c690e68fba0"
-  integrity sha1-5zoDhcg1VZF0bgILmWecaQ5o+6A=
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.template/-/lodash.template-4.5.0.tgz#f976195cf3f347d0d5f52483569fe8031ccce8ab"
+  integrity sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==
   dependencies:
-    lodash._reinterpolate "~3.0.0"
+    lodash._reinterpolate "^3.0.0"
     lodash.templatesettings "^4.0.0"
 
 lodash.templatesettings@^4.0.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/lodash.templatesettings/-/lodash.templatesettings-4.1.0.tgz#2b4d4e95ba440d915ff08bc899e4553666713316"
-  integrity sha1-K01OlbpEDZFf8IvImeRVNmZxMxY=
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/lodash.templatesettings/-/lodash.templatesettings-4.2.0.tgz#e481310f049d3cf6d47e912ad09313b154f0fb33"
+  integrity sha512-stgLz+i3Aa9mZgnjr/O+v9ruKZsPsndy7qPZOchbqk2cnTU1ZaldKK+v7m54WoKIyxiuMZTKT2H81F8BeAc3ZQ==
   dependencies:
-    lodash._reinterpolate "~3.0.0"
+    lodash._reinterpolate "^3.0.0"
 
 lodash.unescape@4.0.1:
   version "4.0.1"
