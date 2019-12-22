@@ -1,0 +1,23 @@
+{
+  "name": "canard",
+  "description": "A deception-based multiplayer game",
+  "repository": "https://github.com/prabid/canard",
+  "author": "prabid",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "lerna": "^3.14.1"
+  },
+  "scripts": {
+    "publish:all": "lerna publish",
+    "test": "lerna run test"
+  }
+}

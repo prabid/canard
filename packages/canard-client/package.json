@@ -1,0 +1,38 @@
+{
+  "name": "canard-client",
+  "version": "0.0.3",
+  "description": "A deception-based multiplayer game - client component",
+  "keywords": [
+    "realtime",
+    "framework",
+    "websocket",
+    "events",
+    "socket",
+    "client",
+    "party",
+    "games"
+  ],
+  "author": "prabid",
+  "homepage": "https://github.com/prabid/canard/tree/master/packages/canard-client",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prabid/canard/tree/master/packages/canard-client"
+  },
+  "scripts": {
+    "test": "echo \"Not yet implemented\" && exit 0"
+  },
+  "dependencies": {
+    "socket.io-client": "^2.2.0"
+  }
+}
