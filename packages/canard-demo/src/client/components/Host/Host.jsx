@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import canardClient from "canard-client";
 import Scores from "./Scores/Scores";
 import Tiles from "./Tiles/Tiles";
+import StatusBar from "./StatusBar/StatusBar";
 import ChoosingTopic from "./ChoosingTopic/ChoosingTopic";
 
 class Host extends Component {
@@ -10,7 +11,7 @@ class Host extends Component {
 
     this.state = {
       room: {},
-      status: "waiting" // bluffing, choosing, viewing, topic, waiting
+      status: "start" // bluffing, choosing, viewing, topic, waiting, start
     };
   
     this.setStatus = this.setStatus.bind(this);
@@ -39,9 +40,11 @@ class Host extends Component {
       return <div>Loading...</div>;
     }
     return (
-      <div>
-        <span>Host: {this.state.room.roomId}</span>
-        <button onClick={() => this.setStatus("topic")}>Start Game</button>
+      <div className="game">
+        <div>
+          <span>Host: {this.state.room.roomId}</span>
+        </div>
+        {this.state.status === "start" ? <button onClick={() => this.setStatus("topic")}>Start Game</button> : ""}
         {this.state.room.roomId && 
           (<ChoosingTopic roomId={this.state.room.roomId} setStatus={this.setStatus} 
             isHidden={this.state.status !== "topic" && this.state.status !== "bluffing"} canard={this.canard} />)}
@@ -51,6 +54,9 @@ class Host extends Component {
         {this.state.room.roomId && 
           (<Tiles room={this.state.room} setStatus={this.setStatus} 
             isHidden={this.state.status !== "choosing"} canard={this.canard} />)}
+        {this.state.room.roomId && 
+          (<StatusBar room={this.state.room}
+            isHidden={this.state.status !== "choosing" && this.state.status !== "bluffing"} canard={this.canard} />)}
       </div>
     );
   }

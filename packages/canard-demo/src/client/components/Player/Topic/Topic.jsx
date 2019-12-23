@@ -12,7 +12,6 @@ class Topic extends Component {
   };
 
   async componentDidMount() {
-    console.log("mounted player topic");
     this.props.canard.onTopics(topics => {
       this.props.setStatus("topic");
       this.setState(() => ({ topics }));
@@ -21,7 +20,7 @@ class Topic extends Component {
 
   render() {
     return (
-      <div className="topic" style={this.props.isHidden ? { display: 'none' } : {}}>
+      <div className="topics" style={this.props.isHidden ? { display: 'none' } : {}}>
         {this.state.topics.map((value, index) => {
           return (
             <div className="topic" key={index} onClick={() => this.handleSubmit(value)}>

@@ -15,6 +15,7 @@ class Bluff extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.canard.sendBluff({ roomId: this.props.roomId, playerId: this.props.playerId, bluff: this.state.bluff });
+    this.props.setStatus("waiting");
   };
 
   onInputChange = e => {
@@ -23,7 +24,6 @@ class Bluff extends Component {
 
   async componentDidMount() {
     this.props.canard.onPrompt(prompt => {
-      console.log('prompt')
       this.props.setStatus("bluffing");
     });
   }

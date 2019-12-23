@@ -1,7 +1,7 @@
 const RoomManager = require('./roomManager');
 
 class RoomListManager {
-  constructor () {
+  constructor() {
     this.rooms = [];
   }
 
@@ -14,14 +14,13 @@ class RoomListManager {
       room.getPlayers().filter(player => player.socketId === socketId).length > 0)[0]
   }
 
-  addRoom (roomId, socketId, maxPlayers) {
+  addRoom(roomId, socketId, maxPlayers) {
     const room = new RoomManager(roomId, socketId, maxPlayers);
     this.rooms.push(room);
     return room;
   }
 
-  removeRoom (id) {
-    // todo
+  removeRoom(id) {
     const removedRoom = this.rooms.filter(room => room.getRoomId() === id)[0];
 
     if (removedRoom) {
@@ -31,11 +30,11 @@ class RoomListManager {
     return removedRoom;
   }
 
-  getRoom (roomId) {
+  getRoom(roomId) {
     return this.rooms.filter(room => room.getRoomId() === roomId)[0];
   }
 
-  roomExists (id) {
+  roomExists(id) {
     const found = this.rooms.filter(room => room.getRoomId() === id);
 
     if (found.length > 0) {

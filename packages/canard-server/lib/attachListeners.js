@@ -33,8 +33,8 @@ function attachListeners (io, gameReference) {
       io.to(socket.id).emit('cn-roomConnectionSuccessful', playerId);
     });
 
-    socket.on('cn-topics', data => {
-      console.log('cn-topics');
+    socket.on('cn-triggerTopics', data => {
+      console.log('cn-triggerTopics');
       const room = roomListManager.getRoomByHostSocketId(socket.id);
       if (room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
@@ -42,7 +42,8 @@ function attachListeners (io, gameReference) {
       }
       const players = room.getPlayers();
       const topics = room.getTopics();
-      io.to(players[0].socketId).emit('cn-onTopics', topics)
+      io.to(players[0].socketId).emit('cn-onTopics', topics);
+      io.to(room.getHost()).emit('cn-onTopics', topics);
     });
 
     socket.on('cn-sendPrompt', data => {
@@ -54,8 +55,10 @@ function attachListeners (io, gameReference) {
       }
 
       const prompt = room.setTopic(data.prompt);
-      io.to(room.getHost()).emit('cn-onPrompt', prompt[0]);
+      io.to(room.getHost()).emit('cn-onPrompt', prompt);
       const players = room.getPlayers();
+
+      io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
 
       players.forEach(player => {
         io.to(player.socketId).emit(
@@ -73,20 +76,25 @@ function attachListeners (io, gameReference) {
         return;
       }
       room.setPlayerBluff(data.playerId, data.bluff);
+      io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
+
       if (room.allReady()) {
         console.log('allready');
         io.to(room.getHost()).emit('cn-onBluffs', room.getBluffs());
       }
     });
 
-    socket.on('cn-responses', data => {
-      console.log('cn-responses');
+    socket.on('cn-triggerResponses', data => {
+      console.log('cn-triggerResponses');
       console.log(data.bluffs);
       const room = roomListManager.getRoomByHostSocketId(socket.id);
       if (room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
+
+      io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
+
       const players = room.getPlayers();
       players.forEach(player => {
         io.to(player.socketId).emit(
@@ -104,20 +112,20 @@ function attachListeners (io, gameReference) {
         return;
       }
       room.setPlayerGuess(data.playerId, data.guess);
+      io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
       if (room.allReady()) {
-        io.to(room.getHost()).emit('cn-onGuesses', room.getGuesses());
+        io.to(room.getHost()).emit('cn-onGuesses', { "guesses": room.getGuesses(), "answer": room.getAnswer() });
       }
     });
 
-    socket.on('cn-scores', data => {
+    socket.on('cn-triggerScores', data => {
+      console.log('cn-triggerScores');
       const room = roomListManager.getRoomByHostSocketId(socket.id);
       if (room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
       const scores = room.calculateScores();
-      console.log('cn-scores');
-      console.log(scores)
       io.to(room.getHost()).emit('cn-onScores', scores);
     });
 

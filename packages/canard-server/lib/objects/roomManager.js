@@ -4,7 +4,7 @@ class RoomManager {
     this.socketId = socketId;
     this.maxPlayers = maxPlayers;
     this.players = [];
-    this.topics = [["roomtopic1", "roomprompt1"], ["roomtopic2", "roomprompt2"], ["roomtopic3", "roompropmt3"]];
+    this.topics = [["roomtopic1", "roomprompt1", "roomanswer1"], ["roomtopic2", "roomprompt2", "roomanswer2"], ["roomtopic3", "roompropmt3", "roomanswer3"]];
     this.chosen_topic = [];
     this.correct_pts = 5;
     this.tricked_pts = 1;
@@ -18,26 +18,29 @@ class RoomManager {
     return this.socketId;
   }
 
+  getAnswer() {
+    return this.chosen_topic[2]
+  }
+
   getPlayers() {
     return this.players;
   }
 
   getTopics() {
-    // todo
+    // TODO
     return this.topics.map(topic => topic[0]);
   }
 
   setTopic(topic) {
-    // todo
     this.chosen_topic = this.topics.filter(t => t[0] == topic)[0];
-    return this.chosen_topic;
+    return this.chosen_topic[1];
   }
 
   getBluffs() {
     this.players.forEach(p => {
       p.isReady = false;
     });
-    return this.players.map(p => p.bluff).concat(this.chosen_topic[1]);
+    return this.players.map(p => p.bluff).concat(this.chosen_topic[2]);
   }
 
   getGuesses() {
@@ -47,6 +50,12 @@ class RoomManager {
     return this.players.map(p => {
       return { "guess": p.guess, "playerId": p.playerId };
     });
+  }
+
+  getStatuses() {
+    return this.players.map(p => { 
+      return {"name": p.name, "isReady": p.isReady };
+    })
   }
 
   setPlayerBluff(playerId, bluff) {
@@ -66,8 +75,11 @@ class RoomManager {
   }
 
   calculateScores() {
+    console.log("calculate-scores");
+    console.log(this.players);
+    console.log(this.chosen_topic)
     this.players.forEach(p => {
-      if (p.guess === this.chosen_topic[1]) {
+      if (p.guess === this.chosen_topic[2]) {
         this.addToPlayerScore(p.playerId, this.correct_pts);
       }
       else {

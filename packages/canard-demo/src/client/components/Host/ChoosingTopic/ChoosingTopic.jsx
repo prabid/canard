@@ -4,7 +4,7 @@ import "./ChoosingTopic.css";
 class ChoosingTopic extends Component {
   // TODO: topics should have onFunc through socket
   state = {
-    topics: ["topic1", "topic2", "topic3"],
+    topics: [],
     prompt: ""
   }
 
@@ -13,6 +13,10 @@ class ChoosingTopic extends Component {
       console.log('prompt')
       this.setState(() => ({ prompt }));
       this.props.setStatus("bluffing");
+    });
+    this.props.canard.onTopics(topics => {
+      console.log("gottopics")
+      this.setState(() => ({ topics }));
     });
   }
 
@@ -27,8 +31,16 @@ class ChoosingTopic extends Component {
 
   render() {
     return (
-      <div className="tiles" style={this.props.isHidden ? { display: 'none' } : {}}>
-        { this.state.prompt === "" ? "Nada" : <span>Chosen prompt is {this.state.prompt}</span> }
+      <div className="choosingTopic" style={this.props.isHidden ? { display: 'none' } : {}}>
+        { this.state.prompt === "" ?
+          this.state.topics.map((value, index) => {
+            return (
+              <div className="chooseTopic" key={index}>
+                {value}
+              </div>
+            );
+          }) : 
+          <span>Chosen prompt is {this.state.prompt}</span> }
       </div>
     );
   }

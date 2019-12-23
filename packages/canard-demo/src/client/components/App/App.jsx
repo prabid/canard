@@ -5,6 +5,7 @@ import Landing from "../Landing/Landing";
 import Host from "../Host/Host";
 import Player from "../Player/Player";
 import Header from "../Header/Header";
+import "./App.css";
 
 class App extends Component {
   render() {

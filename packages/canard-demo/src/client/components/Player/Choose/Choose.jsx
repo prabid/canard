@@ -14,6 +14,7 @@ class Choose extends Component {
 
   handleSubmit(event) {
     this.props.canard.sendGuess({ roomId: this.props.roomId, playerId: this.props.playerId, guess: event });
+    this.props.setStatus("waiting");
   };
 
   async componentDidMount() {
@@ -25,11 +26,11 @@ class Choose extends Component {
 
   render() {
     return (
-      <div className="tiles" style={this.props.isHidden ? { display: 'none' } : {}}>
+      <div className="playerTiles" style={this.props.isHidden ? { display: 'none' } : {}}>
         Choosing
         {this.state.responses.map((value, index) => {
           return (
-            <div className="tile" key={index} onClick={() => this.handleSubmit(value)}>
+            <div className="playerTile" key={index} onClick={() => this.handleSubmit(value)}>
               {value}
             </div>
           );

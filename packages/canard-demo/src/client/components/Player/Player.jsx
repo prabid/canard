@@ -13,7 +13,7 @@ class Player extends Component {
       roomId: 0,
       name: "",
       playerId: "",
-      status: "waiting" // bluffing, choosing, viewing, topic, waiting
+      status: "start" // bluffing, choosing, viewing, topic, waiting, start
     };
   
     this.setStatus = this.setStatus.bind(this);
@@ -26,18 +26,25 @@ class Player extends Component {
   }
 
   async componentDidMount() {
-    console.log("player mounted");
-    const { roomId, name } = this.props.location.state;
+    const { roomId, name } = this.props.location.state || {};
+
     this.canard = await canardClient("http://localhost:8080");
+    this.canard.onError(error => {
+      console.log(error);
+      this.props.history.push("/");
+    });
     const playerId = await this.canard.joinRoom(roomId, name);
+
     this.setState(() => ({ roomId, name, playerId }));
   }
 
   render() {
     return (
-      <div>
-        <span>Player: {this.state.name}</span>
-        <span>Player id is {this.state.playerId}</span>
+      <div className="game">
+        <div className="playerInfo">
+          <span>Player: {this.state.name}</span>
+          <span>Player id is {this.state.playerId}</span>
+        </div>
         {this.canard && 
           (<Bluff roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "bluffing"} canard={this.canard} />)}
         {this.canard && 

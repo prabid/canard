@@ -4,21 +4,22 @@ import "./Tiles.css";
 class Tiles extends Component {
   state = {
     bluffs: [],
-    guesses: []
+    guesses: [],
+    answer: ""
   }
 
   async componentDidMount() {
     this.props.canard.onBluffs(bluffs => {
-      console.log("onbluffs");
-      this.props.setStatus("choosing");
-      this.props.canard.triggerResponses({ roomId: this.props.room.roomId, bluffs });
+      setTimeout(() => {
+        this.props.setStatus("choosing");
+        this.props.canard.triggerResponses({ roomId: this.props.room.roomId, bluffs });
+      }, 3000);
       this.setState(() => ({ bluffs }));
     });
-    this.props.canard.onGuesses(guesses => {
-      console.log("onguesses");
+    this.props.canard.onGuesses(data => {
       this.props.setStatus("choosing");
       this.props.canard.triggerScores({ roomId: this.props.room.roomId });
-      this.setState(() => ({ guesses }));
+      this.setState(() => ({ guesses: data["guesses"], answer: data["answer"] }));
     })
   }
 

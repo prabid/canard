@@ -1,0 +1,9 @@
+body {
+  margin: auto;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+.game {
+  position: relative;
+  text-align: center;
+}

@@ -1,0 +1,16 @@
+.playerTiles, .topics {
+  display: inline-block;
+}
+
+.playerTile, .topic {
+  width: 300px;
+  height: 20px;
+  border-radius: 8px;
+  border: solid;
+  background-color: white;
+  font-size: 18px;
+  border-width: 2px;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+}

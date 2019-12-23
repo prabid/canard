@@ -7,8 +7,6 @@ class Scores extends Component {
   }
 
   async componentDidMount() {
-    console.log("scores mounted");
-    console.log(this.props.canard);
     this.props.canard.onScores(scores => {
       this.setState(() => ({ scores }));
       this.props.setStatus("viewing");
@@ -27,7 +25,7 @@ class Scores extends Component {
             );
           })}
         </div>
-        <button onClick={() => this.props.setStatus("topic")}>Submit</button>
+        <button onClick={() => this.props.setStatus("topic")}>Continue</button>
       </div>
     );
   }

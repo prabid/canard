@@ -17,16 +17,16 @@ const canardClient = async url => {
   };
 
   const triggerTopics = (data) => {
-    socket.emit('cn-topics', data);
-  }
+    socket.emit('cn-triggerTopics', data);
+  };
 
   const triggerResponses = (responses) => {
-    socket.emit('cn-responses', responses);
-  }
+    socket.emit('cn-triggerResponses', responses);
+  };
 
   const triggerScores = (data) => {
-    socket.emit('cn-scores', data);
-  }
+    socket.emit('cn-triggerScores', data);
+  };
 
   const onPlayerJoin = cb => {
     socket.on('cn-onPlayerJoin', room => {
@@ -79,11 +79,11 @@ const canardClient = async url => {
 
   const sendBluff = (data) => {
     socket.emit('cn-sendBluff', data)
-  }
+  };
 
   const sendPrompt = (data) => {
     socket.emit('cn-sendPrompt', data)
-  }
+  };
 
   const onResponses = cb => {
     socket.on('cn-onResponses', responses => {
@@ -91,9 +91,21 @@ const canardClient = async url => {
     });
   };
 
+  const onStatuses = cb => {
+    socket.on('cn-onStatuses', statuses => {
+      cb(statuses);
+    });
+  };
+
   const sendGuess = (data) => {
     socket.emit('cn-sendGuess', data)
-  }
+  };
+
+  const onError = cb => {
+    socket.on('cn-error', error => {
+      cb(error);
+    });
+  };
 
   return {
     createRoom,
@@ -110,7 +122,9 @@ const canardClient = async url => {
     sendBluff,
     sendPrompt,
     onResponses,
-    sendGuess
+    onStatuses,
+    sendGuess,
+    onError
   };
 };
 

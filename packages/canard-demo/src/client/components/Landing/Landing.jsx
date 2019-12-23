@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-// import canardClient from "canard-client";
+import "./Landing.css";
 
 class Landing extends Component {
   state = {
@@ -33,7 +33,7 @@ class Landing extends Component {
   render() {
     const { roomId, name } = this.state;
     return (
-      <div>
+      <div className="landing">
         <div>Landing</div>
         <div>
           <input name="roomId" value={roomId} onChange={this.onInputChange} />

@@ -1,9 +1,9 @@
 class PlayerManager {
-  constructor () {
+  constructor() {
     this.players = [];
   }
 
-  addPlayer (playerId, roomId, socketId, name) {
+  addPlayer(playerId, roomId, socketId, name) {
     const player = {
       playerId,
       roomId,
@@ -16,7 +16,7 @@ class PlayerManager {
     return player;
   }
 
-  removePlayer (id) {
+  removePlayer(id) {
     const removedPlayer = this.players.filter(
       player => player.playerId === id
     )[0];
@@ -28,7 +28,7 @@ class PlayerManager {
     return removedPlayer;
   }
 
-  getPlayer (id) {
+  getPlayer(id) {
     return this.players.filter(player => player.playerId === id)[0];
   }
 }
