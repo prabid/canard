@@ -4,6 +4,8 @@ import Scores from "./Scores/Scores";
 import Tiles from "./Tiles/Tiles";
 import StatusBar from "./StatusBar/StatusBar";
 import ChoosingTopic from "./ChoosingTopic/ChoosingTopic";
+import End from "./End/End";
+import "./Host.css";
 
 class Host extends Component {
   constructor(props) {
@@ -11,7 +13,7 @@ class Host extends Component {
 
     this.state = {
       room: {},
-      status: "start" // bluffing, choosing, viewing, topic, waiting, start
+      status: "start" // bluffing, choosing, viewing, topic, waiting, start, end
     };
   
     this.setStatus = this.setStatus.bind(this);
@@ -41,10 +43,14 @@ class Host extends Component {
     }
     return (
       <div className="game">
-        <div>
-          <span>Host: {this.state.room.roomId}</span>
-        </div>
-        {this.state.status === "start" ? <button onClick={() => this.setStatus("topic")}>Start Game</button> : ""}
+        {this.state.status === "start" ? 
+          <div className="hostStart">
+            <div className="roomNumber">
+              <span>Host: {this.state.room.roomId}</span>
+            </div>
+            <button onClick={() => this.setStatus("topic")} className="btn">Start Game</button>   
+          </div>
+          : ""}
         {this.state.room.roomId && 
           (<ChoosingTopic roomId={this.state.room.roomId} setStatus={this.setStatus} 
             isHidden={this.state.status !== "topic" && this.state.status !== "bluffing"} canard={this.canard} />)}
@@ -57,6 +63,9 @@ class Host extends Component {
         {this.state.room.roomId && 
           (<StatusBar room={this.state.room}
             isHidden={this.state.status !== "choosing" && this.state.status !== "bluffing"} canard={this.canard} />)}
+        {this.state.room.roomId && 
+          (<End room={this.state.room} setStatus={this.setStatus} 
+            isHidden={this.state.status !== "end"} canard={this.canard} />)}
       </div>
     );
   }

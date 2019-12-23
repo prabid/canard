@@ -13,14 +13,14 @@ class Tiles extends Component {
       setTimeout(() => {
         this.props.setStatus("choosing");
         this.props.canard.triggerResponses({ roomId: this.props.room.roomId, bluffs });
-      }, 3000);
+      }, 1000);
       this.setState(() => ({ bluffs }));
     });
     this.props.canard.onGuesses(data => {
       this.props.setStatus("choosing");
       this.props.canard.triggerScores({ roomId: this.props.room.roomId });
       this.setState(() => ({ guesses: data["guesses"], answer: data["answer"] }));
-    })
+    });
   }
 
   render() {
@@ -29,7 +29,7 @@ class Tiles extends Component {
         {this.state.bluffs.map((value, index) => {
           return (
             <div className="tile" key={index}>
-              {value}
+              <span>{value}</span>
             </div>
           );
         })}

@@ -64,6 +64,12 @@ const canardClient = async url => {
     });
   };
 
+  const onEndGame = cb => {
+    socket.on('cn-onEndGame', end => {
+      cb(end);
+    });
+  };
+
   /**
    * Player methods
    */
@@ -124,7 +130,8 @@ const canardClient = async url => {
     onResponses,
     onStatuses,
     sendGuess,
-    onError
+    onError,
+    onEndGame
   };
 };
 

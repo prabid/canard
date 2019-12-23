@@ -13,7 +13,7 @@ class Player extends Component {
       roomId: 0,
       name: "",
       playerId: "",
-      status: "start" // bluffing, choosing, viewing, topic, waiting, start
+      status: "start" // bluffing, choosing, viewing, topic, waiting, start, end
     };
   
     this.setStatus = this.setStatus.bind(this);
@@ -43,7 +43,6 @@ class Player extends Component {
       <div className="game">
         <div className="playerInfo">
           <span>Player: {this.state.name}</span>
-          <span>Player id is {this.state.playerId}</span>
         </div>
         {this.canard && 
           (<Bluff roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "bluffing"} canard={this.canard} />)}

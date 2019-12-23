@@ -1,0 +1,18 @@
+.tiles {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.tile {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+  border: solid;
+  background-color: white;
+  font-size: 18px;
+  border-width: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

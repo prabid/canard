@@ -5,9 +5,10 @@ class RoomManager {
     this.maxPlayers = maxPlayers;
     this.players = [];
     this.topics = [["roomtopic1", "roomprompt1", "roomanswer1"], ["roomtopic2", "roomprompt2", "roomanswer2"], ["roomtopic3", "roompropmt3", "roomanswer3"]];
-    this.chosen_topic = [];
-    this.correct_pts = 5;
-    this.tricked_pts = 1;
+    this.chosenTopic = [];
+    this.correctPts = 5;
+    this.trickedPts = 1;
+    this.roundNum = 0;
   }
 
   getRoomId() {
@@ -19,7 +20,7 @@ class RoomManager {
   }
 
   getAnswer() {
-    return this.chosen_topic[2]
+    return this.chosenTopic[2]
   }
 
   getPlayers() {
@@ -31,16 +32,20 @@ class RoomManager {
     return this.topics.map(topic => topic[0]);
   }
 
+  getRoundNum() {
+    return this.roundNum;
+  }
+
   setTopic(topic) {
-    this.chosen_topic = this.topics.filter(t => t[0] == topic)[0];
-    return this.chosen_topic[1];
+    this.chosenTopic = this.topics.filter(t => t[0] == topic)[0];
+    return this.chosenTopic[1];
   }
 
   getBluffs() {
     this.players.forEach(p => {
       p.isReady = false;
     });
-    return this.players.map(p => p.bluff).concat(this.chosen_topic[2]);
+    return this.players.map(p => p.bluff).concat(this.chosenTopic[2]);
   }
 
   getGuesses() {
@@ -77,15 +82,15 @@ class RoomManager {
   calculateScores() {
     console.log("calculate-scores");
     console.log(this.players);
-    console.log(this.chosen_topic)
+    console.log(this.chosenTopic)
     this.players.forEach(p => {
-      if (p.guess === this.chosen_topic[2]) {
-        this.addToPlayerScore(p.playerId, this.correct_pts);
+      if (p.guess === this.chosenTopic[2]) {
+        this.addToPlayerScore(p.playerId, this.correctPts);
       }
       else {
         const bluffers = this.players.filter(bluffer => bluffer.bluff === p.guess && p.playerId !== bluffer.playerId);
         bluffers.forEach(bluffer => {
-          this.addToPlayerScore(bluffer.playerId, this.tricked_pts);
+          this.addToPlayerScore(bluffer.playerId, this.trickedPts);
         });
       }
     });
@@ -132,6 +137,11 @@ class RoomManager {
   allReady() {
     const notReady = this.players.filter(p => p.isReady === false);
     return notReady.length === 0;
+  }
+
+  incrementRoundNum() {
+    this.roundNum += 1;
+    return this.roundNum;
   }
 }
 

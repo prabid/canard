@@ -3,6 +3,7 @@ const { generateId } = require('./utils');
 
 const players = new PlayerManager();
 const roomListManager = new RoomListManager();
+const NUM_ROUNDS = 3;
 
 function attachListeners (io, gameReference) {
   io.on('connect', socket => {
@@ -40,7 +41,10 @@ function attachListeners (io, gameReference) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
+
       const players = room.getPlayers();
+      const roundNum = room.incrementRoundNum();
+
       const topics = room.getTopics();
       io.to(players[0].socketId).emit('cn-onTopics', topics);
       io.to(room.getHost()).emit('cn-onTopics', topics);
@@ -126,6 +130,11 @@ function attachListeners (io, gameReference) {
         return;
       }
       const scores = room.calculateScores();
+      if (room.getRoundNum() === NUM_ROUNDS) {
+        io.to(room.getHost()).emit('cn-onEndGame', scores);
+        roomListManager.removeRoom(room.getRoomId());
+        return;
+      }
       io.to(room.getHost()).emit('cn-onScores', scores);
     });
 

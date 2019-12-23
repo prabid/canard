@@ -25,7 +25,7 @@ class Scores extends Component {
             );
           })}
         </div>
-        <button onClick={() => this.props.setStatus("topic")}>Continue</button>
+        <button onClick={() => this.props.setStatus("topic")} className="btn">Continue</button>
       </div>
     );
   }
