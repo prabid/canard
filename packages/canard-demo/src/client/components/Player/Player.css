@@ -1,5 +1,4 @@
-.playerInfo {
-  position: absolute;
-  right: 0;
-  padding: 0 30px;
+.playerLanding {
+  position: relative;
+  text-align: center;
 }

@@ -2,12 +2,12 @@
   height: 50px;
   background-color: rgb(223, 72, 72);
   border-bottom: 2px solid black;
+  text-align: center;
 }
 
 .headerText {
   line-height: 50px;
   vertical-align: middle;
-  padding-left: 25px;
   font-weight: bold;
   font-size: 20px;
 }

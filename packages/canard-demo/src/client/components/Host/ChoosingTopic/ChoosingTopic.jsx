@@ -10,19 +10,17 @@ class ChoosingTopic extends Component {
 
   async componentDidMount() {
     this.props.canard.onPrompt(prompt => {
-      console.log('prompt')
       this.setState(() => ({ prompt }));
       this.props.setStatus("bluffing");
     });
     this.props.canard.onTopics(topics => {
-      console.log("gottopics")
       this.setState(() => ({ topics }));
     });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.isHidden && !this.props.isHidden) {
-      this.props.canard.triggerTopics({roomId: this.props.roomId});
+      this.props.canard.triggerTopics({roomId: this.props.room.roomId});
     }
     else if (!prevProps.isHidden && this.props.isHidden) {
       this.setState({ topics: [], prompt: ""});

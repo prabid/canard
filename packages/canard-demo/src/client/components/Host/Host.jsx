@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import canardClient from "canard-client";
+import Header from "../Header/Header";
+import WaitingRoom from "./WaitingRoom/WaitingRoom";
 import Scores from "./Scores/Scores";
 import Tiles from "./Tiles/Tiles";
 import StatusBar from "./StatusBar/StatusBar";
@@ -12,16 +14,23 @@ class Host extends Component {
     super(props);
 
     this.state = {
-      room: {},
+      room: null,
+      gameStarted: false,
       status: "start" // bluffing, choosing, viewing, topic, waiting, start, end
     };
   
     this.setStatus = this.setStatus.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
 
   canard = null;
 
-  async componentDidMount() {
+  setStatus(status) {
+    this.setState({ status });
+  }
+
+  startGame = async () => {
+    this.setState({ gameStarted: true });
     this.canard = await canardClient("http://localhost:8080");
     const room = await this.canard.createRoom();
     this.setState(() => ({ room }));
@@ -31,41 +40,53 @@ class Host extends Component {
     });
   }
 
-  setStatus(status) {
-    this.setState({ status })
-  }
-
   render() {
-    const { room } = this.state;
-    console.log(room);
-    if (!room) {
-      return <div>Loading...</div>;
-    }
-    return (
-      <div className="game">
-        {this.state.status === "start" ? 
-          <div className="hostStart">
-            <div className="roomNumber">
-              <span>Host: {this.state.room.roomId}</span>
+    if (!this.state.gameStarted) {
+      return (
+        <div className="host">
+          <Header title="CANARD" />
+          <div className="game">
+            <div><span>Choose a game</span></div>
+            <div>
+              <select value={this.state.gameType} onChange={(e) => this.setState(({ gameType: e.target.value }))}>
+                <option value="moviebluff">Movie Bluff</option>
+              </select>
             </div>
-            <button onClick={() => this.setStatus("topic")} className="btn">Start Game</button>   
+            <div>
+              <button onClick={this.startGame} className="btn">Create Game</button>
+            </div>
           </div>
-          : ""}
-        {this.state.room.roomId && 
-          (<ChoosingTopic roomId={this.state.room.roomId} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "topic" && this.state.status !== "bluffing"} canard={this.canard} />)}
-        {this.state.room.roomId && 
-          (<Scores room={this.state.room} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "viewing"} canard={this.canard} />)}
-        {this.state.room.roomId && 
-          (<Tiles room={this.state.room} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "choosing"} canard={this.canard} />)}
-        {this.state.room.roomId && 
-          (<StatusBar room={this.state.room}
-            isHidden={this.state.status !== "choosing" && this.state.status !== "bluffing"} canard={this.canard} />)}
-        {this.state.room.roomId && 
-          (<End room={this.state.room} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "end"} canard={this.canard} />)}
+        </div>
+      );
+    }
+
+    if (!this.state.room) {
+      return (
+        <div className="host">
+          <Header title="CANARD" />
+          <div className="game">
+            <span>Loading...</span>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="host">
+        <Header title="CANARD" />
+        <div className="game">
+          <WaitingRoom room={this.state.room} setStatus={this.setStatus} isHidden={this.state.status !== "start"} />
+          <ChoosingTopic room={this.state.room} setStatus={this.setStatus} 
+            isHidden={this.state.status !== "topic" && this.state.status !== "bluffing"} canard={this.canard} />
+          <Scores room={this.state.room} setStatus={this.setStatus} 
+            isHidden={this.state.status !== "viewing"} canard={this.canard} />
+          <Tiles room={this.state.room} setStatus={this.setStatus} 
+            isHidden={this.state.status !== "choosing"} canard={this.canard} />
+          <StatusBar room={this.state.room}
+            isHidden={this.state.status !== "choosing" && this.state.status !== "bluffing"} canard={this.canard} />
+          <End room={this.state.room} setStatus={this.setStatus} 
+            isHidden={this.state.status !== "end"} canard={this.canard} />
+        </div>
       </div>
     );
   }

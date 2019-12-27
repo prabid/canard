@@ -6,7 +6,7 @@ class Choose extends Component {
     super(props);
 
     this.state = {
-      responses: ["response", "response2", "response3"]
+      responses: []
     }
   
     this.handleSubmit = this.handleSubmit.bind(this);
