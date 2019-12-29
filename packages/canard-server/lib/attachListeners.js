@@ -42,12 +42,11 @@ function attachListeners (io, gameReference) {
         return;
       }
 
-      const players = room.getPlayers();
       const roundNum = room.incrementRoundNum();
 
-      const topics = room.getTopics();
-      io.to(players[0].socketId).emit('cn-onTopics', topics);
-      io.to(room.getHost()).emit('cn-onTopics', topics);
+      const topicData = room.getTopics();
+      io.to(topicData["topicPicker"].socketId).emit('cn-onTopics', topicData["topics"]);
+      io.to(room.getHost()).emit('cn-onTopics', topicData);
     });
 
     socket.on('cn-sendPrompt', data => {
@@ -59,7 +58,7 @@ function attachListeners (io, gameReference) {
       }
 
       const prompt = room.setTopic(data.prompt);
-      io.to(room.getHost()).emit('cn-onPrompt', prompt);
+      io.to(room.getHost()).emit('cn-onPrompt', [prompt[0], prompt[1]]);
       const players = room.getPlayers();
 
       io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
@@ -67,7 +66,7 @@ function attachListeners (io, gameReference) {
       players.forEach(player => {
         io.to(player.socketId).emit(
           'cn-onPrompt',
-          prompt[0]
+          prompt[1]
         );
       });
     });
@@ -103,7 +102,7 @@ function attachListeners (io, gameReference) {
       players.forEach(player => {
         io.to(player.socketId).emit(
           'cn-onResponses',
-          data.bluffs
+          room.getBluffs(player.playerId)
         );
       });
     });

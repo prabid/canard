@@ -1,0 +1,9 @@
+.startInput {
+  margin: 15px 0;
+  padding: 10px 10px;
+  width: 300px;
+  outline: none;
+  border: 1px solid #bbb;
+  border-radius: 20px;
+  font-size: 18px;
+}

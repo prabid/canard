@@ -30,7 +30,7 @@ class End extends Component {
     return (
       <div className="endScores" style={this.props.isHidden ? { display: 'none' } : {}}>
         <div className="winner">
-          <span>{this.state.winner}</span>
+          <span>{this.state.winner} wins the game!</span>
         </div>
         {this.state.scores.map((value, index) => {
           return (

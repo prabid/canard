@@ -1,0 +1,48 @@
+.choosingTopic {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  width: 300px;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+li {
+  border-radius: 10px;
+  margin: 5px;
+  width: 140px;
+  height: 140px;
+  line-height: 140px;
+}
+
+.chosenTopic {
+  height: 150px;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  width: 80%;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.topicText {
+  display: inline-block;
+  vertical-align: middle;
+}

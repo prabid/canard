@@ -46,13 +46,15 @@ class Host extends Component {
         <div className="host">
           <Header title="CANARD" />
           <div className="game">
-            <div><span>Choose a game</span></div>
+            <div className="hostHeader">
+              <span>Choose a game</span>
+            </div>
             <div>
               <select value={this.state.gameType} onChange={(e) => this.setState(({ gameType: e.target.value }))}>
                 <option value="moviebluff">Movie Bluff</option>
               </select>
             </div>
-            <div>
+            <div className="startGameBtn">
               <button onClick={this.startGame} className="btn">Create Game</button>
             </div>
           </div>

@@ -29,7 +29,10 @@ class RoomManager {
 
   getTopics() {
     // TODO
-    return this.topics.map(topic => topic[0]);
+    const player = this.players[Math.floor(Math.random() * this.players.length)];
+    return { "topics": this.topics.map(topic => topic[0]), 
+             "topicPicker": { "socketId": player["socketId"], "name": player["name"] } 
+            };
   }
 
   getRoundNum() {
@@ -38,20 +41,15 @@ class RoomManager {
 
   setTopic(topic) {
     this.chosenTopic = this.topics.filter(t => t[0] == topic)[0];
-    return this.chosenTopic[1];
+    return [this.chosenTopic[0], this.chosenTopic[1]];
   }
 
-  getBluffs() {
-    this.players.forEach(p => {
-      p.isReady = false;
-    });
-    return this.players.map(p => p.bluff).concat(this.chosenTopic[2]);
+  getBluffs(playerId) {
+    const players = this.players.filter(p => p.playerId !== playerId);
+    return players.map(p => p.bluff).concat(this.chosenTopic[2]);
   }
 
   getGuesses() {
-    this.players.forEach(p => {
-      p.isReady = false;
-    });
     return this.players.map(p => {
       return { "guess": p.guess, "playerId": p.playerId };
     });
@@ -135,8 +133,13 @@ class RoomManager {
   }
 
   allReady() {
-    const notReady = this.players.filter(p => p.isReady === false);
-    return notReady.length === 0;
+    const isAllReady = this.players.filter(p => p.isReady === false).length === 0;
+    if (isAllReady) {
+      this.players.forEach(p => {
+        p.isReady = false;
+      });
+    }
+    return isAllReady;
   }
 
   incrementRoundNum() {

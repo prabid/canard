@@ -1,17 +1,19 @@
 .tiles {
+  height: calc(100% - 70px);
+  width: 100%;
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
 .tile {
-  width: 140px;
+  width: 400px;
   height: 140px;
+  padding: 0 15px;
   border-radius: 8px;
-  border: solid;
-  background-color: white;
+  background-color: #ABABAB;
   font-size: 18px;
-  border-width: 2px;
   display: flex;
   justify-content: center;
   align-items: center;

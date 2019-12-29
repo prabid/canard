@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import canardClient from "canard-client";
 import Header from "../Header/Header";
 import Choose from "./Choose/Choose";
+import Join from "./Join/Join";
 import Bluff from "./Bluff/Bluff";
 import Topic from "./Topic/Topic";
 import "./Player.css";
@@ -25,15 +26,11 @@ class Player extends Component {
 
   canard = null;
 
-  onInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
   setStatus(status) {
     this.setState({ status });
   }
 
-  joinGame = async () => {
+  joinGame = async (roomId, name) => {
     this.setState({ gameJoined: true });
     this.canard = await canardClient("http://localhost:8080");
     this.canard.onError(error => {
@@ -41,9 +38,9 @@ class Player extends Component {
       this.setState({ roomId: "", name: "", playerId: "", gameJoined: false, status: "start"});
       return;
     });
-    const playerId = await this.canard.joinRoom(this.state.roomId, this.state.name);
+    const playerId = await this.canard.joinRoom(roomId, name);
 
-    this.setState(() => ({ playerId }));
+    this.setState(() => ({ playerId, roomId, name }));
   }
 
   render() {
@@ -51,19 +48,7 @@ class Player extends Component {
       return (
         <div className="player">
           <Header title="CANARD" />
-          <div className="game">
-            <div><span>Room Id</span></div>
-            <div>
-              <input name="roomId" value={this.state.roomId} onChange={this.onInputChange} />
-            </div>
-            <div><span>Name</span></div>
-            <div>
-              <input name="name" value={this.state.name} onChange={this.onInputChange} />
-            </div>
-            <div>
-              <button onClick={this.joinGame} className="btn">Join Game</button>
-            </div>
-          </div>
+          <Join joinGame={this.joinGame} />
         </div>
       );
     }

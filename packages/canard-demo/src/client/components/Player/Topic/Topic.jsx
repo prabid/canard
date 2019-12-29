@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./Topic.css";
 
 class Topic extends Component {
-  // First to choose a topic wins?
   state = {
     topics: ["topic1", "topic2", "topic3"]
   }
@@ -21,13 +20,18 @@ class Topic extends Component {
   render() {
     return (
       <div className="topics" style={this.props.isHidden ? { display: 'none' } : {}}>
-        {this.state.topics.map((value, index) => {
-          return (
-            <div className="topic" key={index} onClick={() => this.handleSubmit(value)}>
-              {value}
-            </div>
-          );
-        })}
+        <div className="topicHeader">
+          <span>Choose a topic!</span>
+        </div>
+        <div className="topicList">
+          {this.state.topics.map((value, index) => {
+            return (
+              <div className="topic" key={index} onClick={() => this.handleSubmit(value)}>
+                {value}
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }

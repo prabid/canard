@@ -16,7 +16,7 @@ class Bluff extends Component {
     event.preventDefault();
     this.props.canard.sendBluff({ roomId: this.props.roomId, playerId: this.props.playerId, bluff: this.state.bluff });
     this.props.setStatus("waiting");
-    this.setState({ bluff: ""});
+    this.setState({ bluff: "" });
   };
 
   onInputChange = e => {
@@ -36,11 +36,11 @@ class Bluff extends Component {
           <div>
             <span>Enter bluff</span>
           </div>
-          <div>
-            <input id="bluff" type="text" value={this.state.bluff} onChange={this.onInputChange} />
+          <div className="bluffInputContainer">
+            <input id="bluff" type="text" className="startInput" value={this.state.bluff} onChange={this.onInputChange} />
           </div>
           <div>
-            <button onClick={this.handleSubmit} class="btn">Submit</button>
+            <button onClick={this.handleSubmit} className="btn">Submit</button>
           </div>
         </div>
       </div>

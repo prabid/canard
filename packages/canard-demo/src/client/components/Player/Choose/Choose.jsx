@@ -27,7 +27,9 @@ class Choose extends Component {
   render() {
     return (
       <div className="playerTiles" style={this.props.isHidden ? { display: 'none' } : {}}>
-        Choosing
+        <div className="chooseHeader">
+          <span>Choose the correct answer</span>
+        </div>
         {this.state.responses.map((value, index) => {
           return (
             <div className="playerTile" key={index} onClick={() => this.handleSubmit(value)}>
