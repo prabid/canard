@@ -20,7 +20,12 @@ class Scores extends Component {
           {this.state.scores.map((value, index) => {
             return (
               <div className="score" key={index}>
-                {value["name"]}: {value["score"]}
+                <div>
+                  <span>{value["name"]}</span>
+                </div>
+                <div>
+                  <span>{value["score"]}</span>
+                </div>
               </div>
             );
           })}

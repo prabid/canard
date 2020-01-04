@@ -31,14 +31,15 @@ li {
 }
 
 .chosenTopic {
-  height: 150px;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
+  position: relative;
   display: flex;
+  height: calc(100% - 135px);
+  padding-top: 40px;
+  overflow: hidden;
   width: 80%;
   flex-wrap: wrap;
   margin: 0 auto;
+  align-items: center;
   justify-content: center;
 }
 

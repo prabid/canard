@@ -4,7 +4,6 @@ import Header from "../Header/Header";
 import WaitingRoom from "./WaitingRoom/WaitingRoom";
 import Scores from "./Scores/Scores";
 import Tiles from "./Tiles/Tiles";
-import StatusBar from "./StatusBar/StatusBar";
 import ChoosingTopic from "./ChoosingTopic/ChoosingTopic";
 import End from "./End/End";
 import "./Host.css";
@@ -45,7 +44,7 @@ class Host extends Component {
       return (
         <div className="host">
           <Header title="CANARD" />
-          <div className="game">
+          <div className="playerGame">
             <div className="hostHeader">
               <span>Choose a game</span>
             </div>
@@ -66,7 +65,7 @@ class Host extends Component {
       return (
         <div className="host">
           <Header title="CANARD" />
-          <div className="game">
+          <div className="playerGame">
             <span>Loading...</span>
           </div>
         </div>
@@ -76,7 +75,7 @@ class Host extends Component {
     return (
       <div className="host">
         <Header title="CANARD" />
-        <div className="game">
+        <div className="hostGame">
           <WaitingRoom room={this.state.room} setStatus={this.setStatus} isHidden={this.state.status !== "start"} />
           <ChoosingTopic room={this.state.room} setStatus={this.setStatus} 
             isHidden={this.state.status !== "topic" && this.state.status !== "bluffing"} canard={this.canard} />
@@ -84,8 +83,6 @@ class Host extends Component {
             isHidden={this.state.status !== "viewing"} canard={this.canard} />
           <Tiles room={this.state.room} setStatus={this.setStatus} 
             isHidden={this.state.status !== "choosing"} canard={this.canard} />
-          <StatusBar room={this.state.room}
-            isHidden={this.state.status !== "choosing" && this.state.status !== "bluffing"} canard={this.canard} />
           <End room={this.state.room} setStatus={this.setStatus} 
             isHidden={this.state.status !== "end"} canard={this.canard} />
         </div>

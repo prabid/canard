@@ -17,7 +17,7 @@ class Join extends Component {
 
   render() {
     return (
-      <div className="game">
+      <div className="playerGame">
         <div>
           <span>Room Id</span>
         </div>

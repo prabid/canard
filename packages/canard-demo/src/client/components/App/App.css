@@ -12,11 +12,19 @@ body {
   height: 100%;
 }
 
-.game {
+.playerGame {
   position: relative;
   min-height: calc(100% - 52px);
   text-align: center;
   padding-top: 25px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.hostGame {
+  position: relative;
+  min-height: calc(100% - 52px);
+  text-align: center;
   font-size: 20px;
   font-weight: 700;
 }

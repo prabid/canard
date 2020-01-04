@@ -87,8 +87,8 @@ const canardClient = async url => {
     socket.emit('cn-sendBluff', data)
   };
 
-  const sendPrompt = (data) => {
-    socket.emit('cn-sendPrompt', data)
+  const chooseTopic = (data) => {
+    socket.emit('cn-chooseTopic', data)
   };
 
   const onResponses = cb => {
@@ -126,7 +126,7 @@ const canardClient = async url => {
     onPrompt,
     onGuesses,
     sendBluff,
-    sendPrompt,
+    chooseTopic,
     onResponses,
     onStatuses,
     sendGuess,

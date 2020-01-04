@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import StatusBar from "../StatusBar/StatusBar";
 import "./Tiles.css";
 
 class Tiles extends Component {
@@ -26,13 +27,16 @@ class Tiles extends Component {
   render() {
     return (
       <div className="tiles" style={this.props.isHidden ? { display: 'none' } : {}}>
-        {this.state.bluffs.map((value, index) => {
-          return (
-            <div className="tile" key={index}>
-              <span>{value}</span>
-            </div>
-          );
-        })}
+        <div className="tileList">
+          {this.state.bluffs.map((value, index) => {
+            return (
+              <div className="tile" key={index}>
+                <span>{value}</span>
+              </div>
+            );
+          })}
+        </div>
+        <StatusBar room={this.props.room} canard={this.props.canard} />
       </div>
     );
   }

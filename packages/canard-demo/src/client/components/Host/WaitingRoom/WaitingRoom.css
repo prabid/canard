@@ -1,3 +1,11 @@
 .roomNumber {
   padding-bottom: 10px;
 }
+
+.waitingRoom {
+  position: relative;
+  min-height: calc(100% - 80px);
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}

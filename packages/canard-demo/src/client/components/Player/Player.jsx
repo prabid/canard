@@ -56,7 +56,7 @@ class Player extends Component {
       return (
         <div className="player">
           <Header title={this.state.name} />
-          <div className="game">
+          <div className="playerGame">
             <span>Loading...</span>
           </div>
         </div>
@@ -65,7 +65,7 @@ class Player extends Component {
     return (
       <div className="player">
         <Header title={this.state.name} />
-        <div className="game">
+        <div className="playerGame">
           <Bluff roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "bluffing"} canard={this.canard} />
           <Topic roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "topic"} canard={this.canard} />
           <Choose roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "choosing"} canard={this.canard} />

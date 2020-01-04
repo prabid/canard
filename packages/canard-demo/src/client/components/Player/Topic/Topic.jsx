@@ -6,8 +6,8 @@ class Topic extends Component {
     topics: ["topic1", "topic2", "topic3"]
   }
 
-  handleSubmit = prompt => {
-    this.props.canard.sendPrompt({ roomId: this.props.roomId, prompt: prompt, playerId: this.props.playerId })
+  handleSubmit = topic => {
+    this.props.canard.chooseTopic({ roomId: this.props.roomId, topic: topic, playerId: this.props.playerId })
   };
 
   async componentDidMount() {
@@ -24,10 +24,10 @@ class Topic extends Component {
           <span>Choose a topic!</span>
         </div>
         <div className="topicList">
-          {this.state.topics.map((value, index) => {
+          {this.state.topics.map((topic, index) => {
             return (
-              <div className="topic" key={index} onClick={() => this.handleSubmit(value)}>
-                {value}
+              <div className="topic" key={index} onClick={() => this.handleSubmit(topic)}>
+                {topic}
               </div>
             );
           })}

@@ -4,8 +4,8 @@ class RoomManager {
     this.socketId = socketId;
     this.maxPlayers = maxPlayers;
     this.players = [];
-    this.topics = [["roomtopic1", "roomprompt1", "roomanswer1"], ["roomtopic2", "roomprompt2", "roomanswer2"], ["roomtopic3", "roompropmt3", "roomanswer3"]];
-    this.chosenTopic = [];
+    this.questions = []; //[["roomtopic1", "roomprompt1", "roomanswer1"], ["roomtopic2", "roomprompt2", "roomanswer2"], ["roomtopic3", "roompropmt3", "roomanswer3"]];
+    this.chosenQuestion = [];
     this.correctPts = 5;
     this.trickedPts = 1;
     this.roundNum = 0;
@@ -20,19 +20,18 @@ class RoomManager {
   }
 
   getAnswer() {
-    return this.chosenTopic[2]
+    return this.chosenQuestion["answer"]
   }
 
   getPlayers() {
     return this.players;
   }
 
-  getTopics() {
-    // TODO
-    const player = this.players[Math.floor(Math.random() * this.players.length)];
-    return { "topics": this.topics.map(topic => topic[0]), 
-             "topicPicker": { "socketId": player["socketId"], "name": player["name"] } 
-            };
+  setQuestions(questions) {
+    console.log("setQuestions");
+    console.log(questions);
+    this.questions = questions;
+    return this.questions.map(q => q["topic"]);
   }
 
   getRoundNum() {
@@ -40,13 +39,13 @@ class RoomManager {
   }
 
   setTopic(topic) {
-    this.chosenTopic = this.topics.filter(t => t[0] == topic)[0];
-    return [this.chosenTopic[0], this.chosenTopic[1]];
+    this.chosenQuestion = this.questions.filter(q => q["topic"] == topic)[0];
+    return [this.chosenQuestion["topic"], this.chosenQuestion["prompt"]];
   }
 
   getBluffs(playerId) {
     const players = this.players.filter(p => p.playerId !== playerId);
-    return players.map(p => p.bluff).concat(this.chosenTopic[2]);
+    return players.map(p => p.bluff).concat(this.chosenQuestion["answer"]);
   }
 
   getGuesses() {
@@ -59,6 +58,10 @@ class RoomManager {
     return this.players.map(p => { 
       return {"name": p.name, "isReady": p.isReady };
     })
+  }
+
+  getRandomPlayer() {
+    return this.players[Math.floor(Math.random() * this.players.length)];
   }
 
   setPlayerBluff(playerId, bluff) {
@@ -80,9 +83,9 @@ class RoomManager {
   calculateScores() {
     console.log("calculate-scores");
     console.log(this.players);
-    console.log(this.chosenTopic)
+    console.log(this.chosenQuestion)
     this.players.forEach(p => {
-      if (p.guess === this.chosenTopic[2]) {
+      if (p.guess === this.chosenQuestion["answer"]) {
         this.addToPlayerScore(p.playerId, this.correctPts);
       }
       else {

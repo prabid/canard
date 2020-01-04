@@ -1,9 +1,12 @@
 const { PlayerManager, RoomListManager } = require('./objects');
 const { generateId } = require('./utils');
+const db = require('./queries');
 
 const players = new PlayerManager();
 const roomListManager = new RoomListManager();
 const NUM_ROUNDS = 3;
+
+
 
 function attachListeners (io, gameReference) {
   io.on('connect', socket => {
@@ -34,7 +37,7 @@ function attachListeners (io, gameReference) {
       io.to(socket.id).emit('cn-roomConnectionSuccessful', playerId);
     });
 
-    socket.on('cn-triggerTopics', data => {
+    socket.on('cn-triggerTopics', async (data) => {
       console.log('cn-triggerTopics');
       const room = roomListManager.getRoomByHostSocketId(socket.id);
       if (room.getRoomId() !== data.roomId) {
@@ -42,22 +45,24 @@ function attachListeners (io, gameReference) {
         return;
       }
 
-      const roundNum = room.incrementRoundNum();
+      room.incrementRoundNum();
 
-      const topicData = room.getTopics();
-      io.to(topicData["topicPicker"].socketId).emit('cn-onTopics', topicData["topics"]);
-      io.to(room.getHost()).emit('cn-onTopics', topicData);
+      const questions = await db.getQuestions();
+      const topics = room.setQuestions(questions);
+      const randomPlayer = room.getRandomPlayer();
+      io.to(randomPlayer.socketId).emit('cn-onTopics', topics);
+      io.to(room.getHost()).emit('cn-onTopics', { "topics": topics, "topicPicker": randomPlayer.name });
     });
 
-    socket.on('cn-sendPrompt', data => {
-      console.log('sendPrompt');
+    socket.on('cn-chooseTopic', data => {
+      console.log('chooseTopic');
       const room = roomListManager.getRoomByPlayerSocketId(socket.id);
       if (room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
 
-      const prompt = room.setTopic(data.prompt);
+      const prompt = room.setTopic(data.topic);
       io.to(room.getHost()).emit('cn-onPrompt', [prompt[0], prompt[1]]);
       const players = room.getPlayers();
 
