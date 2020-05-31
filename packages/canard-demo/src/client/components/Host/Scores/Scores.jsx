@@ -16,14 +16,14 @@ class Scores extends Component {
   render() {
     return (
       <div className="scores" style={this.props.isHidden ? { display: 'none' } : {}}>
-        <div className="points">
+        <div className="scoreBoard">
           {this.state.scores.map((value, index) => {
             return (
               <div className="score" key={index}>
-                <div>
+                <div className="scoreName">
                   <span>{value["name"]}</span>
                 </div>
-                <div>
+                <div className="scorePoints">
                   <span>{value["score"]}</span>
                 </div>
               </div>

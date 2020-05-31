@@ -40,7 +40,7 @@ function attachListeners (io, gameReference) {
     socket.on('cn-triggerTopics', async (data) => {
       console.log('cn-triggerTopics');
       const room = roomListManager.getRoomByHostSocketId(socket.id);
-      if (room.getRoomId() !== data.roomId) {
+      if (room === undefined || room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
@@ -57,7 +57,7 @@ function attachListeners (io, gameReference) {
     socket.on('cn-chooseTopic', data => {
       console.log('chooseTopic');
       const room = roomListManager.getRoomByPlayerSocketId(socket.id);
-      if (room.getRoomId() !== data.roomId) {
+      if (room === undefined || room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
@@ -79,7 +79,7 @@ function attachListeners (io, gameReference) {
     socket.on('cn-sendBluff', data => {
       console.log('cn-sendBluff');
       const room = roomListManager.getRoomByPlayerSocketId(socket.id);
-      if (room.getRoomId() !== data.roomId) {
+      if (room === undefined || room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
@@ -96,7 +96,7 @@ function attachListeners (io, gameReference) {
       console.log('cn-triggerResponses');
       console.log(data.bluffs);
       const room = roomListManager.getRoomByHostSocketId(socket.id);
-      if (room.getRoomId() !== data.roomId) {
+      if (room === undefined || room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
@@ -115,7 +115,7 @@ function attachListeners (io, gameReference) {
     socket.on('cn-sendGuess', data => {
       console.log('cn-sendGuess');
       const room = roomListManager.getRoomByPlayerSocketId(socket.id);
-      if (room.getRoomId() !== data.roomId) {
+      if (room === undefined || room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
@@ -129,7 +129,7 @@ function attachListeners (io, gameReference) {
     socket.on('cn-triggerScores', data => {
       console.log('cn-triggerScores');
       const room = roomListManager.getRoomByHostSocketId(socket.id);
-      if (room.getRoomId() !== data.roomId) {
+      if (room === undefined || room.getRoomId() !== data.roomId) {
         io.to(socket.id).emit('cn-error', 'Room by socketid not found');
         return;
       }
@@ -173,6 +173,11 @@ function attachListeners (io, gameReference) {
 
     socket.on('cn-getUpdatedData', data => {
       const room = roomListManager.getRoom(data.roomId);
+
+      if (room === undefined) {
+        io.to(socket.id).emit('cn-error', 'Room by roomid not found');
+        return;
+      }
 
       io.to(room.getHost()).emit('cn-update', room);
     });

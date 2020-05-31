@@ -93,7 +93,7 @@ class ChoosingTopic extends Component {
               scale: [0, 1.0],
             }}
             transition={{ duration: 0.2, delay: TOPIC_TIME, times: [0, 1.0]}}
-            style={{ fontSize: "45px" }}>
+            style={{ fontSize: "43px" }}>
             <span>{this.state.prompt[1]}</span>
           </motion.div>
         </div>

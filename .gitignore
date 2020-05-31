@@ -3,5 +3,5 @@ env
 .env
 .npmrc
 package-lock.json
-lerna-debug.log
-yarn-error.log
+*.log
+personal.txt

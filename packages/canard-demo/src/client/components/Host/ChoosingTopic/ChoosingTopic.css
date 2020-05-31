@@ -4,6 +4,14 @@
   position: absolute;
 }
 
+.choosingTopicHeader {
+  font-size: 30px;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+}
+
 ul,
 li {
   list-style: none;
@@ -16,7 +24,7 @@ ul {
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
   display: flex;
-  width: 300px;
+  width: 450px;
   flex-wrap: wrap;
   margin: 0 auto;
   justify-content: center;

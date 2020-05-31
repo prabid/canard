@@ -1,0 +1,25 @@
+.scoreBoard {
+  display: block;
+  width: 350px;
+  margin: 0 auto;
+  padding: 50px 0;
+}
+
+.score {
+  display: flex;
+  padding: 20px;
+  border: solid black;
+  border-width: 2px;
+}
+
+.scoreName {
+  width: 50%;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.scorePoints {
+  width: 50%;
+  text-align: right;
+}
