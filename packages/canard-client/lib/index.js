@@ -3,7 +3,7 @@ const io = require('socket.io-client');
 const canardClient = async url => {
   const socket = await io.connect(url);
 
-  /**
+  /*
    * Room methods
    */
 
@@ -70,7 +70,7 @@ const canardClient = async url => {
     });
   };
 
-  /**
+  /*
    * Player methods
    */
 

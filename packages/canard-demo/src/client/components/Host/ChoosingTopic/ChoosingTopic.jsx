@@ -10,10 +10,10 @@ const spring = {
   stiffness: 300
 };
 
-const tempSpring = {
-  type: "spring",
-  damping: 5
-}
+// const tempSpring = {
+//   type: "spring",
+//   damping: 5
+// }
 
 const TOPIC_TIME = 2.5;
 
@@ -79,20 +79,19 @@ class ChoosingTopic extends Component {
     return (
       <div className="choosingTopic" style={this.props.isHidden ? { display: 'none' } : {}}>
         <div className="chosenTopic">
-          <motion.li
-            animate={{
-              scale: [1.0, 2.0, 2.0, 0],
-            }}
-            layoutTransition={tempSpring}
-            transition={{ duration: TOPIC_TIME - 0.5, times: [0, .05, 1.0, 1.0] }}
-            style={{ background: "#ABABAB", position: "absolute", zIndex: 1, backfaceVisibility: "hidden" }}>
-            <span className="topicText">{this.state.prompt[0]}</span>
-          </motion.li>
           <motion.div
             animate={{
               scale: [0, 1.0],
             }}
-            transition={{ duration: 0.2, delay: TOPIC_TIME, times: [0, 1.0]}}
+            transition={{ duration: 0.2, times: [0, 1.0] }}
+            style={{ fontSize: "43px" }}>
+            <span className="topicText">{this.state.prompt[0]}</span>
+          </motion.div>
+          <motion.div
+            animate={{
+              scale: [0, 1.0],
+            }}
+            transition={{ delay: 3, duration: 0.2, times: [0, 1.0]}}
             style={{ fontSize: "43px" }}>
             <span>{this.state.prompt[1]}</span>
           </motion.div>

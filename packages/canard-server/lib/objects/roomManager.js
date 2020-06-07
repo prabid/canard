@@ -61,7 +61,11 @@ class RoomManager {
   }
 
   getRandomPlayer() {
-    return this.players[Math.floor(Math.random() * this.players.length)];
+    const player = this.players[Math.floor(Math.random() * this.players.length)];
+    if (player === undefined) {
+      throw 'No players';
+    }
+    return player;
   }
 
   setPlayerBluff(playerId, bluff) {
@@ -100,11 +104,10 @@ class RoomManager {
 
   addPlayer(player) {
     if (this.players.length >= this.maxPlayers) {
-      return false;
+      throw 'Room is full';
     }
 
     this.players.push(player);
-    return true;
   }
 
   removePlayer(playerId) {

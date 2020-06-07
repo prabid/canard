@@ -30,7 +30,8 @@ class Host extends Component {
 
   startGame = async () => {
     this.setState({ gameStarted: true });
-    this.canard = await canardClient("http://localhost:8080");
+    console.log(process.env.REACT_APP_IP); 
+    this.canard = await canardClient("http://" + process.env.REACT_APP_IP);
     const room = await this.canard.createRoom();
     this.setState(() => ({ room }));
 

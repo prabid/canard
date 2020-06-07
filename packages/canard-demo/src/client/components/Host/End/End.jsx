@@ -15,7 +15,7 @@ class End extends Component {
   }
 
   gotoHome = () => {
-    this.props.history.push('/');
+    this.props.history.push('/host');
   };
 
   async componentDidMount() {

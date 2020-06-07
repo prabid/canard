@@ -32,7 +32,7 @@ class Player extends Component {
 
   joinGame = async (roomId, name) => {
     this.setState({ gameJoined: true });
-    this.canard = await canardClient("http://localhost:8080");
+    this.canard = await canardClient("http://" + process.env.REACT_APP_IP);
     this.canard.onError(error => {
       console.log(error);
       this.setState({ roomId: "", name: "", playerId: "", gameJoined: false, status: "start"});

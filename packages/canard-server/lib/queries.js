@@ -9,8 +9,16 @@ const pool = new Pool({
 })
 
 const getQuestions = async () => {
-  const questions = await pool.query('select * from questions offset random() * (select count(*) from questions) limit 5');
-  return questions.rows;
+  const questions = pool
+    .query('select * from questions offset random() * (select count(*) from questions) limit 5')
+    .then(res => res.rows)
+    .catch(err => console.log('Error executing query', err.stack));
+  if (questions === undefined) {
+    throw 'Database unreachable';
+  }
+  return questions;
+  // const questions = await pool.query('select * from questions offset random() * (select count(*) from questions) limit 5');
+  // return questions.rows;
 }
 
 module.exports = {

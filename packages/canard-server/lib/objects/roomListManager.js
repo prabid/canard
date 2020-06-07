@@ -6,12 +6,20 @@ class RoomListManager {
   }
 
   getRoomByHostSocketId(socketId) {
-    return this.rooms.filter(room => room.getHost() === socketId)[0]
+    const room = this.rooms.filter(room => room.getHost() === socketId)[0];
+    if (room == undefined) {
+      throw 'Room by host socket id not found';
+    }
+    return room;
   }
 
   getRoomByPlayerSocketId(socketId) {
-    return this.rooms.filter(room => 
-      room.getPlayers().filter(player => player.socketId === socketId).length > 0)[0]
+    const room = this.rooms.filter(room => 
+      room.getPlayers().filter(player => player.socketId === socketId).length > 0)[0];
+    if (room === undefined) {
+      throw 'Room by player socket id not found';
+    }
+    return room;
   }
 
   addRoom(roomId, socketId, maxPlayers) {
@@ -31,7 +39,11 @@ class RoomListManager {
   }
 
   getRoom(roomId) {
-    return this.rooms.filter(room => room.getRoomId() === roomId)[0];
+    const room = this.rooms.filter(room => room.getRoomId() === roomId)[0];
+    if (room === undefined) {
+      throw 'Room not found';
+    }
+    return room;
   }
 
   roomExists(id) {
