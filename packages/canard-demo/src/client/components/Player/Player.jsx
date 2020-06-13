@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import canardClient from "canard-client";
 import Header from "../Header/Header";
-import Choose from "./Choose/Choose";
 import Join from "./Join/Join";
-import Bluff from "./Bluff/Bluff";
-import Topic from "./Topic/Topic";
+import PlayerGame from "./PlayerGame/PlayerGame";
 import "./Player.css";
 
 class Player extends Component {
@@ -20,19 +18,14 @@ class Player extends Component {
       status: "start" // bluffing, choosing, viewing, topic, waiting, start, end
     };
   
-    this.setStatus = this.setStatus.bind(this);
     this.joinGame = this.joinGame.bind(this);
   }
 
   canard = null;
 
-  setStatus(status) {
-    this.setState({ status });
-  }
-
   joinGame = async (roomId, name) => {
     this.setState({ gameJoined: true });
-    this.canard = await canardClient("http://" + process.env.REACT_APP_IP);
+    this.canard = await canardClient("http://" + process.env.REACT_APP_BACKEND_SERVER);
     this.canard.onError(error => {
       console.log(error);
       this.setState({ roomId: "", name: "", playerId: "", gameJoined: false, status: "start"});
@@ -65,11 +58,7 @@ class Player extends Component {
     return (
       <div className="player">
         <Header title={this.state.name} />
-        <div className="playerGame">
-          <Bluff roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "bluffing"} canard={this.canard} />
-          <Topic roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "topic"} canard={this.canard} />
-          <Choose roomId={this.state.roomId} playerId={this.state.playerId} setStatus={this.setStatus} isHidden={this.state.status !== "choosing"} canard={this.canard} />
-        </div>
+        <PlayerGame canard={this.canard} roomId={this.state.roomId} playerId={this.state.playerId} />
       </div>
     );
   }

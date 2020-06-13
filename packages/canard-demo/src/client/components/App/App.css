@@ -23,7 +23,7 @@ body {
 
 .hostGame {
   position: relative;
-  min-height: calc(100% - 52px);
+  height: calc(100% - 52px);
   text-align: center;
   font-size: 20px;
   font-weight: 700;

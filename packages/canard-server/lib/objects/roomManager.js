@@ -20,7 +20,7 @@ class RoomManager {
   }
 
   getAnswer() {
-    return this.chosenQuestion["answer"]
+    return this.chosenQuestion["answer"].toUpperCase();
   }
 
   getPlayers() {
@@ -45,12 +45,12 @@ class RoomManager {
 
   getBluffs(playerId) {
     const players = this.players.filter(p => p.playerId !== playerId);
-    return players.map(p => p.bluff).concat(this.chosenQuestion["answer"]);
+    return players.map(p => p.bluff.toUpperCase()).concat(this.chosenQuestion["answer"].toUpperCase());
   }
 
   getGuesses() {
     return this.players.map(p => {
-      return { "guess": p.guess, "playerId": p.playerId };
+      return { "guess": p.guess, "name": p.name };
     });
   }
 
@@ -69,6 +69,8 @@ class RoomManager {
   }
 
   setPlayerBluff(playerId, bluff) {
+    console.log(playerId)
+    console.log(this.players);
     const player = this.players.filter(
       player => player.playerId === playerId
     )[0];
@@ -85,15 +87,12 @@ class RoomManager {
   }
 
   calculateScores() {
-    console.log("calculate-scores");
-    console.log(this.players);
-    console.log(this.chosenQuestion)
     this.players.forEach(p => {
-      if (p.guess === this.chosenQuestion["answer"]) {
+      if (p.guess.toUpperCase() === this.chosenQuestion["answer"].toUpperCase()) {
         this.addToPlayerScore(p.playerId, this.correctPts);
       }
       else {
-        const bluffers = this.players.filter(bluffer => bluffer.bluff === p.guess && p.playerId !== bluffer.playerId);
+        const bluffers = this.players.filter(bluffer => bluffer.bluff.toUpperCase() === p.guess.toUpperCase() && p.playerId !== bluffer.playerId);
         bluffers.forEach(bluffer => {
           this.addToPlayerScore(bluffer.playerId, this.trickedPts);
         });

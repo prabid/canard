@@ -23,15 +23,9 @@ class Bluff extends Component {
     this.setState({ bluff: e.target.value });
   };
 
-  async componentDidMount() {
-    this.props.canard.onPrompt(prompt => {
-      this.props.setStatus("bluffing");
-    });
-  }
-
   render() {
     return (
-      <div className="bluff" style={this.props.isHidden ? { display: 'none' } : {}}>
+      <div className="playerGame bluff">
         <div>
           <div>
             <span>Enter bluff</span>

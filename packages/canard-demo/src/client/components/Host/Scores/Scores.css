@@ -2,10 +2,11 @@
   display: block;
   width: 350px;
   margin: 0 auto;
-  padding: 50px 0;
+  padding: 50px 0 30px;
 }
 
 .score {
+  margin: 20px 0;
   display: flex;
   padding: 20px;
   border: solid black;

@@ -1,5 +1,5 @@
 const { PlayerManager, RoomListManager } = require('./objects');
-const { generateId } = require('./utils');
+const { generateId, shuffle } = require('./utils');
 const db = require('./queries');
 
 const players = new PlayerManager();
@@ -10,6 +10,7 @@ function attachListeners (io, gameReference) {
   io.on('connect', socket => {
     socket.on('cn-createRoom', () => {
       try {
+        console.log('cn-createRoom');
         const id = generateId();
         socket.join(id);
         const room = roomListManager.addRoom(id, socket.id, 8);
@@ -29,6 +30,7 @@ function attachListeners (io, gameReference) {
         const newPlayer = players.addPlayer(playerId, roomId, socket.id, name);
 
         room.addPlayer(newPlayer);
+        console.log(room);
 
         io.to(room.getHost()).emit('cn-onPlayerJoin', room);
         io.to(socket.id).emit('cn-roomConnectionSuccessful', playerId);
@@ -42,6 +44,7 @@ function attachListeners (io, gameReference) {
       try {
         console.log('cn-triggerTopics');
         const room = roomListManager.getRoomByHostSocketId(socket.id);
+        console.log(room);
 
         room.incrementRoundNum();
 
@@ -60,14 +63,12 @@ function attachListeners (io, gameReference) {
 
     socket.on('cn-chooseTopic', data => {
       try {
-        console.log('chooseTopic');
+        console.log('cn-chooseTopic');
         const room = roomListManager.getRoomByPlayerSocketId(socket.id);
 
         const prompt = room.setTopic(data.topic);
         io.to(room.getHost()).emit('cn-onPrompt', [prompt[0], prompt[1]]);
         const players = room.getPlayers();
-
-        io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
 
         players.forEach(player => {
           io.to(player.socketId).emit(
@@ -90,8 +91,7 @@ function attachListeners (io, gameReference) {
         io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
 
         if (room.allReady()) {
-          console.log('allready');
-          io.to(room.getHost()).emit('cn-onBluffs', room.getBluffs());
+          io.to(room.getHost()).emit('cn-onBluffs', shuffle(room.getBluffs()));
         }
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);
@@ -102,10 +102,7 @@ function attachListeners (io, gameReference) {
     socket.on('cn-triggerResponses', data => {
       try {
         console.log('cn-triggerResponses');
-        console.log(data.bluffs);
         const room = roomListManager.getRoomByHostSocketId(socket.id);
-
-        io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
 
         const players = room.getPlayers();
         players.forEach(player => {

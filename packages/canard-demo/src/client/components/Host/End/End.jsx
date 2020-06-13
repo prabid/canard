@@ -7,7 +7,6 @@ class End extends Component {
     super(props);
 
     this.state = {
-      scores: [],
       winner: ""
     }
   
@@ -15,24 +14,21 @@ class End extends Component {
   }
 
   gotoHome = () => {
-    this.props.history.push('/host');
+    this.props.endGame();
   };
 
   async componentDidMount() {
-    this.props.canard.onEndGame((scores) => {
-      this.props.setStatus("end");
-      const winner = scores.reduce((max, s) => s["score"] > max["score"] ? s : max, scores[0])["name"];
-      this.setState(() => ({ scores, winner }));
-    });
+    const winner = this.props.endScores.reduce((max, s) => s["score"] > max["score"] ? s : max, this.props.endScores[0])["name"];
+    this.setState(() => ({ winner }));
   }
 
   render() {
     return (
-      <div className="endScores" style={this.props.isHidden ? { display: 'none' } : {}}>
+      <div className="hostGame end" >
         <div className="winner">
           <span>{this.state.winner} wins the game!</span>
         </div>
-        {this.state.scores.map((value, index) => {
+        {this.props.endScores.map((value, index) => {
           return (
             <div className="endScore" key={index}>
               {value["name"]}: {value["score"]}

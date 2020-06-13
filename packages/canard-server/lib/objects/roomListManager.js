@@ -32,7 +32,7 @@ class RoomListManager {
     const removedRoom = this.rooms.filter(room => room.getRoomId() === id)[0];
 
     if (removedRoom) {
-      this.room = this.rooms.filter(room => room.getRoomId() !== id);
+      this.rooms = this.rooms.filter(room => room.getRoomId() !== id);
     }
 
     return removedRoom;

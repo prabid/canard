@@ -70,6 +70,10 @@ const canardClient = async url => {
     });
   };
 
+  const removeListener = (channel, fn) => {
+    socket.off(channel, fn);
+  }
+
   /*
    * Player methods
    */
@@ -131,7 +135,8 @@ const canardClient = async url => {
     onStatuses,
     sendGuess,
     onError,
-    onEndGame
+    onEndGame,
+    removeListener
   };
 };
 

@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import canardClient from "canard-client";
 import Header from "../Header/Header";
-import WaitingRoom from "./WaitingRoom/WaitingRoom";
-import Scores from "./Scores/Scores";
-import Tiles from "./Tiles/Tiles";
-import ChoosingTopic from "./ChoosingTopic/ChoosingTopic";
-import End from "./End/End";
+import HostGame from "./HostGame/HostGame";
 import "./Host.css";
 
 class Host extends Component {
@@ -14,30 +10,30 @@ class Host extends Component {
 
     this.state = {
       room: null,
-      gameStarted: false,
-      status: "start" // bluffing, choosing, viewing, topic, waiting, start, end
+      gameStarted: false
     };
   
-    this.setStatus = this.setStatus.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.endGame = this.endGame.bind(this);
   }
 
   canard = null;
 
-  setStatus(status) {
-    this.setState({ status });
-  }
-
   startGame = async () => {
     this.setState({ gameStarted: true });
-    console.log(process.env.REACT_APP_IP); 
-    this.canard = await canardClient("http://" + process.env.REACT_APP_IP);
+    console.log(process.env.REACT_APP_BACKEND_SERVER); 
+    this.canard = await canardClient("http://" + process.env.REACT_APP_BACKEND_SERVER);
     const room = await this.canard.createRoom();
     this.setState(() => ({ room }));
 
     this.canard.onPlayerJoin(room => {
       this.setState(() => ({ room }));
+      console.log(room.players);
     });
+  }
+
+  endGame() {
+    this.setState({ room: null, gameStarted: false });
   }
 
   render() {
@@ -45,7 +41,7 @@ class Host extends Component {
       return (
         <div className="host">
           <Header title="CANARD" />
-          <div className="playerGame">
+          <div className="hostGame">
             <div className="hostHeader">
               <span>Choose a game</span>
             </div>
@@ -54,7 +50,7 @@ class Host extends Component {
                 <option value="moviebluff">Movie Bluff</option>
               </select>
             </div>
-            <div className="startGameBtn">
+            <div className="createGameBtn">
               <button onClick={this.startGame} className="btn">Create Game</button>
             </div>
           </div>
@@ -66,7 +62,7 @@ class Host extends Component {
       return (
         <div className="host">
           <Header title="CANARD" />
-          <div className="playerGame">
+          <div className="hostGame">
             <span>Loading...</span>
           </div>
         </div>
@@ -76,17 +72,7 @@ class Host extends Component {
     return (
       <div className="host">
         <Header title="CANARD" />
-        <div className="hostGame">
-          <WaitingRoom room={this.state.room} setStatus={this.setStatus} isHidden={this.state.status !== "start"} />
-          <ChoosingTopic room={this.state.room} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "topic" && this.state.status !== "bluffing"} canard={this.canard} />
-          <Scores room={this.state.room} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "viewing"} canard={this.canard} />
-          <Tiles room={this.state.room} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "choosing"} canard={this.canard} />
-          <End room={this.state.room} setStatus={this.setStatus} 
-            isHidden={this.state.status !== "end"} canard={this.canard} />
-        </div>
+        <HostGame room={this.state.room} canard={this.canard} endGame={this.endGame} />
       </div>
     );
   }

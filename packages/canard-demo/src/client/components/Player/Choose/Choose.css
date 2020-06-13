@@ -1,9 +1,5 @@
-.playerTiles, .topics {
-  display: inline-block;
-}
-
 .playerTile, .topic {
-  width: 400px;
+  width: 350px;
   height: 20px;
   border-radius: 8px;
   background-color: #ABABAB;
@@ -12,6 +8,12 @@
   padding: 10px;
   margin: 10px;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.playerTiles, .topics {
+  display: inline-block;
 }
 
 .chooseHeader {
