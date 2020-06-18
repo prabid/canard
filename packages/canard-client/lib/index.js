@@ -64,12 +64,6 @@ const canardClient = async url => {
     });
   };
 
-  const onEndGame = cb => {
-    socket.on('cn-onEndGame', end => {
-      cb(end);
-    });
-  };
-
   const removeListener = (channel, fn) => {
     socket.off(channel, fn);
   }
@@ -88,7 +82,12 @@ const canardClient = async url => {
   };
 
   const sendBluff = (data) => {
-    socket.emit('cn-sendBluff', data)
+    return new Promise(resolve => {
+      socket.emit('cn-sendBluff', data);
+      socket.on('cn-acceptable', acc => {
+        resolve(acc);
+      });
+    });
   };
 
   const chooseTopic = (data) => {
@@ -110,6 +109,12 @@ const canardClient = async url => {
   const sendGuess = (data) => {
     socket.emit('cn-sendGuess', data)
   };
+
+  const gameEnd = cb => {
+    socket.on('cn-gameEnd', () => {
+      cb();
+    })
+  }
 
   const onError = cb => {
     socket.on('cn-error', error => {
@@ -134,8 +139,8 @@ const canardClient = async url => {
     onResponses,
     onStatuses,
     sendGuess,
+    gameEnd,
     onError,
-    onEndGame,
     removeListener
   };
 };

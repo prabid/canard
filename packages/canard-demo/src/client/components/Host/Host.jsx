@@ -12,6 +12,8 @@ class Host extends Component {
       room: null,
       gameStarted: false
     };
+
+    this.baseState = this.state;
   
     this.startGame = this.startGame.bind(this);
     this.endGame = this.endGame.bind(this);
@@ -33,7 +35,7 @@ class Host extends Component {
   }
 
   endGame() {
-    this.setState({ room: null, gameStarted: false });
+    this.setState(this.baseState);
   }
 
   render() {

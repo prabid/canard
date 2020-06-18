@@ -23,4 +23,8 @@ const shuffle = (array) => {
   return array;
 }
 
-module.exports = { generateId, shuffle };
+function onlyUnique(array) {
+  return [...new Set(array)];
+}
+
+module.exports = { generateId, shuffle, onlyUnique };

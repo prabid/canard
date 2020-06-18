@@ -1,0 +1,32 @@
+.resultName {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.resultDupes {
+  position: absolute;
+  display: flex;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.resultDupe {
+  padding: 0 10px;
+}
+
+.resultTile {
+  margin: 20px;
+  width: 400px;
+  height: 140px;
+  padding: 0 15px;
+  border-radius: 8px;
+  background-color: #ABABAB;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}

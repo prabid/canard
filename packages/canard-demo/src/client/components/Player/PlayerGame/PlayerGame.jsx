@@ -31,6 +31,10 @@ class PlayerGame extends Component {
       this.setState(() => ({ responses }));
       this.setStatus("choosing");
     });
+
+    this.props.canard.gameEnd(() => {
+      this.props.endGame();
+    });
   }
 
   setStatus(status) {

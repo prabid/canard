@@ -17,8 +17,11 @@ class Player extends Component {
       gameJoined: false,
       status: "start" // bluffing, choosing, viewing, topic, waiting, start, end
     };
+
+    this.baseState = this.state;
   
     this.joinGame = this.joinGame.bind(this);
+    this.endGame = this.endGame.bind(this);
   }
 
   canard = null;
@@ -33,7 +36,11 @@ class Player extends Component {
     });
     const playerId = await this.canard.joinRoom(roomId, name);
 
-    this.setState(() => ({ playerId, roomId, name }));
+    this.setState({ playerId, roomId, name });
+  }
+
+  endGame = () => {
+    this.setState(this.baseState);
   }
 
   render() {
@@ -58,7 +65,7 @@ class Player extends Component {
     return (
       <div className="player">
         <Header title={this.state.name} />
-        <PlayerGame canard={this.canard} roomId={this.state.roomId} playerId={this.state.playerId} />
+        <PlayerGame canard={this.canard} roomId={this.state.roomId} playerId={this.state.playerId} endGame={this.endGame} />
       </div>
     );
   }

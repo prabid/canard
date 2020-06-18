@@ -18,19 +18,19 @@ class ChoosingTopic extends Component {
     topics: []
   }
 
-  timeout = 0;
+  interval = 0;
 
   async componentDidMount() {
     this.setState({ topics: this.props.topics })
     this.props.canard.triggerTopics({roomId: this.props.room.roomId});
-    this.timeout = setInterval(() => {
+    this.interval = setInterval(() => {
       this.setState({ topics: shuffle(this.state.topics) });
     }, 1000);
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.prompt.length === 0 && this.props.prompt.length !== 0) {
-      clearInterval(this.timeout);
+      clearInterval(this.interval);
     }
   }
 

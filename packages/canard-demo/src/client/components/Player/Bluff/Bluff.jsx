@@ -6,22 +6,33 @@ class Bluff extends Component {
     super(props);
 
     this.state = {
-      bluff: ""
+      bluff: "",
+      isAnswer: false
     }
   
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    this.props.canard.sendBluff({ roomId: this.props.roomId, playerId: this.props.playerId, bluff: this.state.bluff });
-    this.props.setStatus("waiting");
-    this.setState({ bluff: "" });
+    const acceptable = await this.props.canard.sendBluff({ roomId: this.props.roomId, playerId: this.props.playerId, bluff: this.state.bluff });
+    if (acceptable) {
+      this.props.setStatus("waiting");
+      this.setState({ bluff: "", isAnswer: false });
+    }
+    else {
+      // TODO
+      this.setState({ isAnswer: true })
+    }
   };
 
   onInputChange = e => {
     this.setState({ bluff: e.target.value });
   };
+
+  async componentWillUnmount() {
+    this.props.canard.removeListener("cn-acceptable", this.handleSubmit)
+  }
 
   render() {
     return (

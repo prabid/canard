@@ -1,10 +1,12 @@
+const { onlyUnique } = require('../utils.js')
+
 class RoomManager {
   constructor (roomId, socketId, maxPlayers) {
     this.roomId = roomId;
     this.socketId = socketId;
     this.maxPlayers = maxPlayers;
     this.players = [];
-    this.questions = []; //[["roomtopic1", "roomprompt1", "roomanswer1"], ["roomtopic2", "roomprompt2", "roomanswer2"], ["roomtopic3", "roompropmt3", "roomanswer3"]];
+    this.questions = [];
     this.chosenQuestion = [];
     this.correctPts = 5;
     this.trickedPts = 1;
@@ -43,20 +45,32 @@ class RoomManager {
     return [this.chosenQuestion["topic"], this.chosenQuestion["prompt"]];
   }
 
-  getBluffs(playerId) {
-    const players = this.players.filter(p => p.playerId !== playerId);
-    return players.map(p => p.bluff.toUpperCase()).concat(this.chosenQuestion["answer"].toUpperCase());
+  getBluffsByPlayer(playerId) {
+    const player = this.players.filter(p => p.playerId === playerId);
+    let bluff = undefined;
+    if (player.length > 0) {
+      bluff = player[0].bluff.toUpperCase();
+    }
+    const players = this.players.filter(p => p.playerId !== playerId && p.bluff.toUpperCase() !== bluff);
+    const bluffs = onlyUnique(players.map(p => p.bluff.toUpperCase()));
+    return bluffs.concat(this.chosenQuestion["answer"].toUpperCase());
+  }
+
+  getBluffs() {
+    return this.players.map(p => {
+      return { "name": p.name, "bluff": p.bluff };
+    });
   }
 
   getGuesses() {
     return this.players.map(p => {
-      return { "guess": p.guess, "name": p.name };
+      return { "name": p.name, "guess": p.guess };
     });
   }
 
   getStatuses() {
     return this.players.map(p => { 
-      return {"name": p.name, "isReady": p.isReady };
+      return { "name": p.name, "isReady": p.isReady };
     })
   }
 

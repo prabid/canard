@@ -86,12 +86,20 @@ function attachListeners (io, gameReference) {
       try {
         console.log('cn-sendBluff');
         const room = roomListManager.getRoomByPlayerSocketId(socket.id);
+        if (room.getAnswer() === data.bluff.toUpperCase()) {
+          io.to(socket.id).emit('cn-acceptable', false);
+          return;
+        }
+        else {
+          io.to(socket.id).emit('cn-acceptable', true);
+        }
+
 
         room.setPlayerBluff(data.playerId, data.bluff);
         io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
 
         if (room.allReady()) {
-          io.to(room.getHost()).emit('cn-onBluffs', shuffle(room.getBluffs()));
+          io.to(room.getHost()).emit('cn-onBluffs', shuffle(room.getBluffsByPlayer()));
         }
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);
@@ -108,7 +116,7 @@ function attachListeners (io, gameReference) {
         players.forEach(player => {
           io.to(player.socketId).emit(
             'cn-onResponses',
-            room.getBluffs(player.playerId)
+            shuffle(room.getBluffsByPlayer(player.playerId))
           );
         });
       } catch (error) {
@@ -125,7 +133,7 @@ function attachListeners (io, gameReference) {
         room.setPlayerGuess(data.playerId, data.guess);
         io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
         if (room.allReady()) {
-          io.to(room.getHost()).emit('cn-onGuesses', { "guesses": room.getGuesses(), "answer": room.getAnswer() });
+          io.to(room.getHost()).emit('cn-onGuesses', { "bluffs": room.getBluffs(), "guesses": room.getGuesses(), "answer": room.getAnswer() });
         }
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);
@@ -137,14 +145,18 @@ function attachListeners (io, gameReference) {
       try {
         console.log('cn-triggerScores');
         const room = roomListManager.getRoomByHostSocketId(socket.id);
+        const players = room.getPlayers();
 
         const scores = room.calculateScores();
+        let isEnd = false;
         if (room.getRoundNum() === NUM_ROUNDS) {
-          io.to(room.getHost()).emit('cn-onEndGame', scores);
+          isEnd = true;
           roomListManager.removeRoom(room.getRoomId());
-          return;
+          players.forEach(player => {
+            io.to(player.socketId).emit('cn-gameEnd');
+          });
         }
-        io.to(room.getHost()).emit('cn-onScores', scores);
+        io.to(room.getHost()).emit('cn-onScores', { "scores": scores, "isEnd": isEnd });
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);
         console.log(error);
