@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import WaitingRoom from "../WaitingRoom/WaitingRoom";
-import Scores from "../Scores/Scores";
-import Tiles from "../Tiles/Tiles";
+import Start from "../Start/Start";
 import ChoosingTopic from "../ChoosingTopic/ChoosingTopic";
+import Prompt from "../Prompt/Prompt";
+import Tiles from "../Tiles/Tiles";
 import Results from "../Results/Results";
+import Scores from "../Scores/Scores";
 import "./HostGame.css";
-
-import { TOPIC_TIME } from "../ChoosingTopic/ChoosingTopic";
 
 class HostGame extends Component {
   constructor(props) {
@@ -16,7 +15,6 @@ class HostGame extends Component {
       topics: [],
       topicPicker: "",
       prompt: [],
-      showPrompt: false,
       bluffs: [],
       results: [],
       answer: "",
@@ -32,28 +30,26 @@ class HostGame extends Component {
   async componentDidMount() {
     // Do not want these values overwritten at start of next round, so not included in base state
     this.setState(({ status: "start", roundNum: 0 })); // bluffing, choosing, viewing, topic, waiting, start, end
-    console.log(this.props.room);
+    
     this.props.canard.onTopics(topicData => {
       this.setState(() => ({ topics: topicData["topics"].map((topic, index) => topic + "-" + index.toString()), topicPicker: topicData["topicPicker"] }));
     });
 
     this.props.canard.onPrompt(prompt => {
-      this.setState(({ prompt }));
       this.setStatus("bluffing");
-      setTimeout(() => {
-        this.setState({ showPrompt: true })
-      }, (TOPIC_TIME + .5) * 1000);
+      this.setState(({ prompt }));
     });
 
     this.props.canard.onBluffs(bluffs => {
       setTimeout(() => {
         this.setStatus("choosing");
+        this.setState(() => ({ bluffs }));
         this.props.canard.triggerResponses({ roomId: this.props.room.roomId, bluffs });
       }, 1000);
-      this.setState(() => ({ bluffs }));
     });
 
     this.props.canard.onGuesses(data => {
+      console.log(data);
       let bluffs = data["bluffs"];
       let r = [];
 
@@ -83,18 +79,18 @@ class HostGame extends Component {
         }
       });
 
-      this.setState(({ results: r }));
       this.setStatus("responses");
+      this.setState(({ results: r }));
     });
 
     this.props.canard.onScores(data => {
-      this.setState(() => ({ scores: data["scores"], isEnd: data["isEnd"] }));
       if (data["isEnd"]) {
         this.setStatus("end");
       }
       else {
         this.setStatus("viewing");
       }
+      this.setState(() => ({ scores: data["scores"], isEnd: data["isEnd"] }));
     });
   }
 
@@ -106,16 +102,23 @@ class HostGame extends Component {
   }
 
   render() {
+    console.log("rerender of hg");
     if (this.state.status === "start") {
       return (
-        <WaitingRoom room={this.props.room} setStatus={this.setStatus} />
+        <Start room={this.props.room} setStatus={this.setStatus} />
       );
     }
 
-    else if (this.state.status === "topic" || this.state.status === "bluffing") {
+    else if (this.state.status === "topic") {
       return (
-        <ChoosingTopic room={this.props.room} setStatus={this.setStatus} canard={this.props.canard} topics={this.state.topics}
-          topicPicker={this.state.topicPicker} prompt={this.state.prompt} showPrompt={this.state.showPrompt} />
+        <ChoosingTopic room={this.props.room} canard={this.props.canard} topics={this.state.topics}
+          topicPicker={this.state.topicPicker} />
+      );
+    }
+
+    else if (this.state.status === "bluffing") {
+      return (
+        <Prompt room={this.props.room} canard={this.props.canard} prompt={this.state.prompt} />
       );
     }
 

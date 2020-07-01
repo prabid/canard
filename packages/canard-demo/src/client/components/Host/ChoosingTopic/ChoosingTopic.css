@@ -32,24 +32,6 @@ li {
   line-height: 140px;
 }
 
-.chosenTopic {
-  position: relative;
-  display: flex;
-  height: calc(100% - 135px);
-  padding-top: 40px;
-  overflow: hidden;
-  width: 80%;
-  flex-wrap: wrap;
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
-}
-
-.chosenPrompt {
-  position: absolute;
-  font-size: 43px;
-}
-
 /* .topicText {
   display: inline-block;
   vertical-align: middle;

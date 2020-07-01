@@ -21,14 +21,15 @@ class Scores extends Component {
     }
   };
 
-  async componentDidMount() {
-    if (this.props.isEnd) {
+  async componentDidUpdate(prevProps) {
+    if (!prevProps.isEnd && this.props.isEnd) {
       const winner = this.props.scores.reduce((max, s) => s["score"] > max["score"] ? s : max, this.props.scores[0]);
       this.setState(() => ({ winner: winner["name"] }));
     }
   }
 
   render() {
+    console.log(this.state.winner);
     return (
       <div className="hostGame scores" >
         <div className="winner" style={this.props.isEnd ? {} : { display: 'none' }}>

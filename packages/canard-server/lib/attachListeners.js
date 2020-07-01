@@ -86,7 +86,7 @@ function attachListeners (io, gameReference) {
       try {
         console.log('cn-sendBluff');
         const room = roomListManager.getRoomByPlayerSocketId(socket.id);
-        if (room.getAnswer() === data.bluff.toUpperCase()) {
+        if (room.getAnswer().toUpperCase() === data.bluff.toUpperCase()) {
           io.to(socket.id).emit('cn-acceptable', false);
           return;
         }
@@ -133,7 +133,7 @@ function attachListeners (io, gameReference) {
         room.setPlayerGuess(data.playerId, data.guess);
         io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
         if (room.allReady()) {
-          io.to(room.getHost()).emit('cn-onGuesses', { "bluffs": room.getBluffs(), "guesses": room.getGuesses(), "answer": room.getAnswer() });
+          io.to(room.getHost()).emit('cn-onGuesses', { "bluffs": room.getBluffs(), "guesses": room.getGuesses(), "answer": room.getAnswer().toUpperCase() });
         }
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);

@@ -8,7 +8,7 @@ class RoomManager {
     this.players = [];
     this.questions = [];
     this.chosenQuestion = [];
-    this.correctPts = 5;
+    this.correctPts = 2;
     this.trickedPts = 1;
     this.roundNum = 0;
   }
@@ -22,7 +22,7 @@ class RoomManager {
   }
 
   getAnswer() {
-    return this.chosenQuestion["answer"].toUpperCase();
+    return this.chosenQuestion["answer"];
   }
 
   getPlayers() {
@@ -58,13 +58,13 @@ class RoomManager {
 
   getBluffs() {
     return this.players.map(p => {
-      return { "name": p.name, "bluff": p.bluff };
+      return { "name": p.name, "bluff": p.bluff.toUpperCase() };
     });
   }
 
   getGuesses() {
     return this.players.map(p => {
-      return { "name": p.name, "guess": p.guess };
+      return { "name": p.name, "guess": p.guess.toUpperCase() };
     });
   }
 
