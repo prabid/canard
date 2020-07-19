@@ -37,28 +37,31 @@ class ChoosingTopic extends Component {
   }
 
   render() {
-    return (
-      <div className="hostGame choosingTopic">
-        <Sound
-            url="bum.mp3"
-            playStatus={Sound.status.PLAYING}
-            loop={true}
-            volume={1}
-          />
-        <div className="choosingTopicHeader">
-          <span>{this.props.topicPicker} is choosing the topic</span>
+    if (this.props.topicPicker !== "") {
+      return (
+        <div className="hostGame choosingTopic">
+          <Sound
+              url="bum.mp3"
+              playStatus={Sound.status.PLAYING}
+              loop={true}
+              volume={1}
+            />
+          <div className="choosingTopicHeader">
+            <span>{this.props.topicPicker} is choosing the topic</span>
+          </div>
+          <ul>
+            {this.state.topics.map(background => (
+              <motion.li
+                key={background}
+                layoutTransition={spring}
+                style={{ background: "#ABABAB" }}>
+              </motion.li>
+            ))}
+          </ul>
         </div>
-        <ul>
-          {this.state.topics.map(background => (
-            <motion.li
-              key={background}
-              layoutTransition={spring}
-              style={{ background: "#ABABAB" }}>
-            </motion.li>
-          ))}
-        </ul>
-      </div>
-    );
+      );  
+    }
+    return null;
   }
 };
 

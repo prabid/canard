@@ -2,7 +2,6 @@ const { PlayerManager, RoomListManager } = require('./objects');
 const { generateId, shuffle } = require('./utils');
 const db = require('./queries');
 
-const players = new PlayerManager();
 const roomListManager = new RoomListManager();
 const NUM_ROUNDS = 3;
 
@@ -26,14 +25,27 @@ function attachListeners (io, gameReference) {
         console.log('cn-joinRoom');
         const room = roomListManager.getRoom(roomId);
 
-        const playerId = generateId();
-        const newPlayer = players.addPlayer(playerId, roomId, socket.id, name);
+        const newPlayerId = generateId();
+        const socketId = socket.id;
 
-        room.addPlayer(newPlayer);
-        console.log(room);
+        const newPlayer = {
+          playerId: newPlayerId,
+          roomId,
+          socketId,
+          name,
+          isReady: false,
+          score: 0
+        };
+
+        const player = room.addPlayer(newPlayer)
+        if (player.playerId !== newPlayerId) {
+          console.log('Already joined')
+          io.to(socket.id).emit('cn-roomConnectionSuccessful', player.playerId)
+          return;
+        }
 
         io.to(room.getHost()).emit('cn-onPlayerJoin', room);
-        io.to(socket.id).emit('cn-roomConnectionSuccessful', playerId);
+        io.to(socket.id).emit('cn-roomConnectionSuccessful', newPlayerId);
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);
         console.log(error);

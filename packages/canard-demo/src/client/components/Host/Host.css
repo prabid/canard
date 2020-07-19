@@ -3,7 +3,8 @@
 }
 
 .hostHeader {
-  padding: 10px 0;
+  padding: 125px 0 10px;
+  font-size: 50px;
 }
 
 .createGameBtn, .startGameBtn {

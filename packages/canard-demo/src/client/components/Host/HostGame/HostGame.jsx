@@ -45,7 +45,7 @@ class HostGame extends Component {
         this.setStatus("choosing");
         this.setState(() => ({ bluffs }));
         this.props.canard.triggerResponses({ roomId: this.props.room.roomId, bluffs });
-      }, 1000);
+      }, 3000);
     });
 
     this.props.canard.onGuesses(data => {
@@ -79,8 +79,10 @@ class HostGame extends Component {
         }
       });
 
-      this.setStatus("responses");
-      this.setState(({ results: r }));
+      setTimeout(() => {
+        this.setStatus("responses");
+        this.setState(({ results: r }));
+      }, 3000);
     });
 
     this.props.canard.onScores(data => {

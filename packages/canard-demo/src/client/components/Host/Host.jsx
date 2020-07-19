@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import canardClient from "canard-client";
-import Header from "../Header/Header";
 import HostGame from "./HostGame/HostGame";
 import "./Host.css";
 
@@ -29,6 +28,9 @@ class Host extends Component {
     this.setState(() => ({ room }));
 
     this.canard.onPlayerJoin(room => {
+      for (let i = room.players.length; i < 8; ++i) {
+        room.players.push(undefined);
+      }
       this.setState(() => ({ room }));
       console.log(room.players);
     });
@@ -42,7 +44,6 @@ class Host extends Component {
     if (!this.state.gameStarted) {
       return (
         <div className="host">
-          <Header title="CANARD" />
           <div className="hostGame">
             <div className="hostHeader">
               <span>Choose a game</span>
@@ -63,7 +64,6 @@ class Host extends Component {
     if (!this.state.room) {
       return (
         <div className="host">
-          <Header title="CANARD" />
           <div className="hostGame">
             <span>Loading...</span>
           </div>
@@ -73,7 +73,6 @@ class Host extends Component {
 
     return (
       <div className="host">
-        <Header title="CANARD" />
         <HostGame room={this.state.room} canard={this.canard} endGame={this.endGame} />
       </div>
     );

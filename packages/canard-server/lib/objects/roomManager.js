@@ -83,7 +83,6 @@ class RoomManager {
   }
 
   setPlayerBluff(playerId, bluff) {
-    console.log(playerId)
     console.log(this.players);
     const player = this.players.filter(
       player => player.playerId === playerId
@@ -116,11 +115,21 @@ class RoomManager {
   }
 
   addPlayer(player) {
-    if (this.players.length >= this.maxPlayers) {
+    if (this.players.filter(p => p.name === player.name).length > 0) {
+      this.players = this.players.map(p => {
+        if (p.name === player.name) {
+          p.socketId = player.socketId;
+        }
+        return p;
+      });
+      return this.players.filter(p => p.name === player.name)[0];
+    }
+    else if (this.players.length >= this.maxPlayers) {
       throw 'Room is full';
     }
-
+    
     this.players.push(player);
+    return player;
   }
 
   removePlayer(playerId) {
