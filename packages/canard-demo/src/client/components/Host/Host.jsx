@@ -20,17 +20,23 @@ class Host extends Component {
 
   canard = null;
 
+  addPlayerSlots(room) {
+    for (let i = room.players.length; i < 8; ++i) {
+      room.players.push(undefined);
+    }
+    return room;
+  }
+
   startGame = async () => {
     this.setState({ gameStarted: true });
     console.log(process.env.REACT_APP_BACKEND_SERVER); 
     this.canard = await canardClient("http://" + process.env.REACT_APP_BACKEND_SERVER);
-    const room = await this.canard.createRoom();
+    let room = await this.canard.createRoom();
+    room = this.addPlayerSlots(room);
     this.setState(() => ({ room }));
 
     this.canard.onPlayerJoin(room => {
-      for (let i = room.players.length; i < 8; ++i) {
-        room.players.push(undefined);
-      }
+      room = this.addPlayerSlots(room);
       this.setState(() => ({ room }));
       console.log(room.players);
     });

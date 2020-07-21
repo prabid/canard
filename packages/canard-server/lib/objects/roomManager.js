@@ -30,7 +30,6 @@ class RoomManager {
   }
 
   setQuestions(questions) {
-    console.log("setQuestions");
     console.log(questions);
     this.questions = questions;
     return this.questions.map(q => q["topic"]);

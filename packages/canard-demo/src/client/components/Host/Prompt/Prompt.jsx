@@ -26,6 +26,10 @@ class Prompt extends Component {
     if (!this.state.showPrompt) {
       return (
         <div className="hostGame prompt" >
+          <Sound
+            url="boom-1.wav"
+            playStatus={Sound.status.PLAYING}
+          />
           <div className="chosenTopic">
             <motion.div
               animate={{
@@ -39,8 +43,6 @@ class Prompt extends Component {
         </div>
       );
     }
-
-    console.log(this.props);
 
     return (
       <div className="hostGame prompt" >

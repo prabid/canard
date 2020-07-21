@@ -4,15 +4,29 @@ import ResultAnimation from "./ResultAnimation/ResultAnimation";
 import "./Results.css";
 
 class Results extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showResults: false
+    };
+  }
+
   render() {
-    console.log(this.props.results)
+    if (!this.state.showResults) {
+      return (
+        <div className="hostGame results">
+          <Sound
+              url="results.mp3"
+              playStatus={this.props.results.length > 0 ? Sound.status.PLAYING : Sound.status.PAUSED}
+              onFinishedPlaying={() => this.setState({ showResults: true })}
+            />
+        </div>
+      );
+    }
+
     return (
       <div className="hostGame results">
-        <Sound
-            url="results.mp3"
-            playStatus={this.props.results.length > 0 ? Sound.status.PLAYING : Sound.status.PAUSED}
-            onFinishedPlaying={() => console.log("Tiles done")}
-          />
         <ResultAnimation results={this.props.results} canard={this.props.canard} room={this.props.room} />
       </div>
     );

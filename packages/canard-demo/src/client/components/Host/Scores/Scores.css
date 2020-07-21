@@ -1,6 +1,6 @@
 .scoreBoard {
   display: block;
-  width: 350px;
+  width: 500px;
   margin: 0 auto;
   padding: 50px 0 30px;
 }
@@ -14,14 +14,18 @@
 }
 
 .scoreName {
-  width: 50%;
+  width: 33%;
   text-align: left;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
+.scoreBluff {
+  width: 33%;
+}
+
 .scorePoints {
-  width: 50%;
+  width: 33%;
   text-align: right;
 }
 

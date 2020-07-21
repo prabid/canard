@@ -40,7 +40,7 @@ function attachListeners (io, gameReference) {
         const player = room.addPlayer(newPlayer)
         if (player.playerId !== newPlayerId) {
           console.log('Already joined')
-          io.to(socket.id).emit('cn-roomConnectionSuccessful', player.playerId)
+          io.to(socket.id).emit('cn-roomConnectionSuccessful', { playerId: player.playerId })
           return;
         }
 
@@ -66,7 +66,7 @@ function attachListeners (io, gameReference) {
         const randomPlayer = room.getRandomPlayer();
 
         io.to(randomPlayer.socketId).emit('cn-onTopics', topics);
-        io.to(room.getHost()).emit('cn-onTopics', { "topics": topics, "topicPicker": randomPlayer.name });
+        io.to(room.getHost()).emit('cn-onTopics', { topics: topics, topicPicker: randomPlayer.name });
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);
         console.log(error);
@@ -145,7 +145,7 @@ function attachListeners (io, gameReference) {
         room.setPlayerGuess(data.playerId, data.guess);
         io.to(room.getHost()).emit('cn-onStatuses', room.getStatuses());
         if (room.allReady()) {
-          io.to(room.getHost()).emit('cn-onGuesses', { "bluffs": room.getBluffs(), "guesses": room.getGuesses(), "answer": room.getAnswer().toUpperCase() });
+          io.to(room.getHost()).emit('cn-onGuesses', { bluffs: room.getBluffs(), guesses: room.getGuesses(), answer: room.getAnswer().toUpperCase() });
         }
       } catch (error) {
         io.to(socket.id).emit('cn-error', error);

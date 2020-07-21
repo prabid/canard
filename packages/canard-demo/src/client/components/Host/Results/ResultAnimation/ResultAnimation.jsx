@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import Sound from "react-sound";
 import { motion } from "framer-motion";
+import Bluffer from "./Bluffer/Bluffer";
+import Duped from "./Duped/Duped";
 
 const RESPONSE_TIME = 5;
 
@@ -10,6 +13,13 @@ class Results extends Component {
     this.state = {
       num: 0
     };
+  }
+
+  blufferHeader(names) {
+    if (names === undefined) {
+      return "The Truth!";
+    }
+    return names.join(" and ").concat("'s Lie!");
   }
 
   async componentDidMount() {
@@ -32,39 +42,29 @@ class Results extends Component {
   }
 
   render() {
+    if (this.state.num >= this.props.results.length) return null;
+
+    const result = this.props.results[this.state.num];
     return (
       <div className="resultList">
-        {this.props.results.map((value, index) => {
-          return (
-            <div key={index}>
-              {this.state.num === index && (
-                <motion.div
-                  className="resultItem"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
-                  <div className="resultNames">
-                    <span>{value.names !== undefined ? 
-                            value.names.join(" and ").concat("'s Lie!") : "The Truth!"}</span>
-                  </div>
-                  <div className="resultTile">
-                    <span>{value.bluff}</span>
-                  </div>
-                  <div className="resultDupes">
-                    {value.duped.map((dupedValue, dupedIndex) => {
-                      return (
-                        <div className="resultDupe" key={dupedIndex}>
-                          <span>{dupedValue}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              )}
-            </div>
-          );
-        })}
+        <motion.div
+          className="resultItem"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
+          <Bluffer index={this.state.num} name={this.blufferHeader(result.names)} isTruth={result.names === undefined} />
+          <div className="resultTile">
+            <span>{result.bluff}</span>
+          </div>
+          <div className="resultDupes">
+            {result.duped.map((dupedName, dupedIndex) => {
+              return (
+                <Duped index={dupedIndex} name={dupedName} />
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     );
   }

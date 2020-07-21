@@ -41,11 +41,11 @@ class ChoosingTopic extends Component {
       return (
         <div className="hostGame choosingTopic">
           <Sound
-              url="bum.mp3"
-              playStatus={Sound.status.PLAYING}
-              loop={true}
-              volume={1}
-            />
+            url="bum.mp3"
+            playStatus={Sound.status.PLAYING}
+            loop={true}
+            volume={1}
+          />
           <div className="choosingTopicHeader">
             <span>{this.props.topicPicker} is choosing the topic</span>
           </div>

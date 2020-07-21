@@ -42,6 +42,9 @@ class Scores extends Component {
                 <div className="scoreName">
                   <span>{value["name"]}</span>
                 </div>
+                <div className="scoreBluff">
+                  <span>{value["bluff"]}</span>
+                </div>
                 <div className="scorePoints">
                   <span>{value["score"]}</span>
                 </div>

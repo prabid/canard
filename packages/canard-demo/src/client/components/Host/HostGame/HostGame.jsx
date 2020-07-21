@@ -51,37 +51,40 @@ class HostGame extends Component {
     this.props.canard.onGuesses(data => {
       console.log(data);
       let bluffs = data["bluffs"];
-      let r = [];
+      let results = [];
 
       // Combine players with the same bluffs
       for (let i = 0; i < bluffs.length; ++i) {
         let bluffIndex = -1;
-        for (let j = 0; j < r.length; ++j) {
-          if (r[j].bluff === bluffs[i].bluff) {
-            r[j].names.push(bluffs[i].name);
+        for (let j = 0; j < results.length; ++j) {
+          if (results[j].bluff === bluffs[i].bluff) {
+            results[j].names.push(bluffs[i].name);
             bluffIndex = j;
           }
         }
         if (bluffIndex === -1) {
-          r.push({ names: [bluffs[i].name], bluff: bluffs[i].bluff, duped: [] })
+          results.push({ names: [bluffs[i].name], bluff: bluffs[i].bluff, duped: [] })
         }
       }
 
       // Add correct answer
-      r.push({ names: undefined, bluff: data["answer"], duped: [] });
+      results.push({ names: undefined, bluff: data["answer"], duped: [] });
 
       // Associate each player with the bluff that they chose as the truth
       data["guesses"].forEach(g => {
-        for (let i = 0; i < r.length; ++i) {
-          if (r[i].bluff === g.guess) {
-            r[i].duped.push(g.name);
+        for (let i = 0; i < results.length; ++i) {
+          if (results[i].bluff === g.guess) {
+            results[i].duped.push(g.name);
           }
         }
       });
 
+      // Only show responses that players picked
+      results = results.filter(r => r.duped.length !== 0 || r.names === undefined)
+
       setTimeout(() => {
         this.setStatus("responses");
-        this.setState(({ results: r }));
+        this.setState(({ results }));
       }, 3000);
     });
 

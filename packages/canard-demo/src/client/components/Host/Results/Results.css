@@ -13,18 +13,18 @@
   transform: translateX(-50%);
 }
 
-.resultDupe {
+/* .resultDupe {
   padding: 0 10px;
-}
+} */
 
 .resultTile {
   margin: 20px;
-  width: 400px;
-  height: 140px;
+  width: 800px;
+  height: 280px;
   padding: 0 15px;
   border-radius: 8px;
   background-color: #ABABAB;
-  font-size: 18px;
+  font-size: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
