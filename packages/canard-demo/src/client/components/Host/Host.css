@@ -1,5 +1,20 @@
 .host {
   height: 100%;
+  /* background-image: url(/duck.svg); */
+}
+
+.host::after {
+  content: "";
+  background: url(/duck.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
 }
 
 .hostHeader {

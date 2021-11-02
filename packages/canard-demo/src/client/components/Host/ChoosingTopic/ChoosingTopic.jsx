@@ -54,7 +54,7 @@ class ChoosingTopic extends Component {
               <motion.li
                 key={background}
                 layoutTransition={spring}
-                style={{ background: "#ABABAB" }}>
+                style={{ background: "#cbffdf" }}>
               </motion.li>
             ))}
           </ul>

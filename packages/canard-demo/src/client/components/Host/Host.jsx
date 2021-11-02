@@ -71,7 +71,7 @@ class Host extends Component {
       return (
         <div className="host">
           <div className="hostGame">
-            <span>Loading...</span>
+            {/* <span>Loading...</span> */}
           </div>
         </div>
       );

@@ -8,8 +8,8 @@ class RoomManager {
     this.players = [];
     this.questions = [];
     this.chosenQuestion = [];
-    this.correctPts = 2;
-    this.trickedPts = 1;
+    this.correctPts = 200;
+    this.trickedPts = 100;
     this.roundNum = 0;
   }
 

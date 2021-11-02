@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./Scores.css";
 
+const SCORE_TIME = 8;
+
 class Scores extends Component {
   constructor(props) {
     super(props);
@@ -8,18 +10,15 @@ class Scores extends Component {
     this.state = {
       winner: ""
     }
-  
-    this.cont = this.cont.bind(this);
   }
 
-  cont = () => {
-    if (this.props.isEnd) {
-      this.props.endGame();
-    }
-    else {
-      this.props.setStatus("topic");
-    }
-  };
+  async componentDidMount() {
+    setTimeout(() => {
+      if (!this.props.isEnd) {
+        this.props.setStatus("topic");
+      }
+    }, SCORE_TIME * 1000);
+  }
 
   async componentDidUpdate(prevProps) {
     if (!prevProps.isEnd && this.props.isEnd) {
@@ -52,7 +51,11 @@ class Scores extends Component {
             );
           })}
         </div>
-        <button onClick={this.cont} className="btn">{this.props.isEnd ? "Return to Main Screen" : "Continue"}</button>
+        {this.props.isEnd ? 
+          (<button onClick={() => this.props.endGame()} className="btn">
+            Return to Main Screen
+          </button>) :
+          ''}
       </div>
     );
   }
